@@ -6,14 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "wrangler pages dev dist",
     "astro": "astro"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WRLDInc/wrld.one.git"
   },
-  "keywords": ["wrld", "directory", "portal"],
+  "keywords": [
+    "wrld",
+    "directory",
+    "portal"
+  ],
   "author": "WRLD Inc.",
   "license": "UNLICENSED",
   "bugs": {
@@ -25,5 +29,8 @@
     "astro": "^5.16.0",
     "instantsearch.js": "^4.84.0",
     "typesense": "^2.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.50.0"
   }
 }
