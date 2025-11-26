@@ -7,6 +7,7 @@
   --bg-void: #0a0e1a;
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
+  --bg-secondary-rgb: 30, 41, 59;
   --bg-tertiary: #334155;
   --bg-elevated: #475569;
   
@@ -76,6 +77,7 @@
   --bg-void: #ffffff;
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
+  --bg-secondary-rgb: 248, 250, 252;
   --bg-tertiary: #f1f5f9;
   --bg-elevated: #e2e8f0;
   
@@ -98,6 +100,7 @@
     --bg-void: #ffffff;
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;
+    --bg-secondary-rgb: 248, 250, 252;
     --bg-tertiary: #f1f5f9;
     --bg-elevated: #e2e8f0;
     

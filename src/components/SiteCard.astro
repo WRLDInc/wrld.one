@@ -73,26 +73,37 @@ const { site, featured = false } = Astro.props;
       const rect = card.querySelector('.border-rect') as SVGRectElement;
       if (!rect) return;
       
-      // Set initial state
-      rect.style.strokeDasharray = '1';
-      rect.style.strokeDashoffset = '1';
-      rect.style.opacity = '0';
+      // Set initial state using SVG attributes
+      rect.setAttribute('stroke-dasharray', '1');
+      rect.setAttribute('stroke-dashoffset', '1');
+      rect.setAttribute('opacity', '0');
       
       // Setup hover animation
       hover(card as HTMLElement, () => {
-        // Fade in and draw border on hover
-        animate(rect, { opacity: 1 }, { duration: 0.1 });
-        const drawIn = animate(
-          rect,
-          { strokeDashoffset: 0 },
+        // Fade in on hover
+        animate(
+          (progress) => rect.setAttribute('opacity', String(progress)),
+          { duration: 0.1 }
+        );
+        
+        // Draw border from 1 to 0
+        animate(
+          (progress) => {
+            const offset = 1 - progress; // Goes from 1 to 0
+            rect.setAttribute('stroke-dashoffset', String(offset));
+          },
           { duration: 0.8, easing: [0.22, 1, 0.36, 1] } // Custom easeOutExpo
         );
         
         return () => {
-          // Draw out and fade border on hover end
+          // Fade out and draw away on hover end
           animate(
-            rect,
-            { strokeDashoffset: -1, opacity: 0 },
+            (progress) => {
+              const offset = -progress; // Goes from 0 to -1
+              const opacity = 1 - progress;
+              rect.setAttribute('stroke-dashoffset', String(offset));
+              rect.setAttribute('opacity', String(opacity));
+            },
             { duration: 0.5, easing: [0.64, 0, 0.78, 0] } // Custom easeInExpo
           );
         };

@@ -14,47 +14,35 @@
   <div class="flow-line vertical flow-7"></div>
   <div class="flow-line vertical flow-8"></div>
   
-  <!-- Data packets with trailing effect -->
+  <!-- Data packets with trailing lines -->
   <div class="data-packet-group packet-group-1">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
   
   <div class="data-packet-group packet-group-2">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
   
   <div class="data-packet-group packet-group-3">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
   
   <div class="data-packet-group packet-group-4">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
   
   <div class="data-packet-group packet-group-5">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
   
   <div class="data-packet-group packet-group-6">
     <div class="data-packet packet-head"></div>
-    <div class="data-trail trail-1"></div>
-    <div class="data-trail trail-2"></div>
-    <div class="data-trail trail-3"></div>
+    <div class="data-trail-line"></div>
   </div>
 </div>
 
@@ -110,24 +98,15 @@
     opacity: 1;
   }
   
-  .data-trail {
+  .data-trail-line {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-primary);
-    box-shadow: 0 0 10px currentColor;
-  }
-  
-  .trail-1 {
-    opacity: 0.6;
-  }
-  
-  .trail-2 {
-    opacity: 0.3;
-  }
-  
-  .trail-3 {
-    opacity: 0.1;
+    background: linear-gradient(to left, var(--accent-primary), transparent);
+    height: 2px;
+    width: 60px;
+    left: -60px;
+    top: 3px;
+    opacity: 0.7;
+    box-shadow: 0 0 8px currentColor;
   }
 
   /* Horizontal packet group animations */
@@ -136,9 +115,6 @@
     animation: moveGroupRight 8s linear infinite;
   }
   
-  .packet-group-1 .trail-1 { left: -12px; }
-  .packet-group-1 .trail-2 { left: -24px; }
-  .packet-group-1 .trail-3 { left: -36px; }
 
   .packet-group-2 {
     top: 35%;
@@ -146,9 +122,6 @@
     animation-delay: -2s;
   }
   
-  .packet-group-2 .trail-1 { left: -12px; }
-  .packet-group-2 .trail-2 { left: -24px; }
-  .packet-group-2 .trail-3 { left: -36px; }
 
   .packet-group-3 {
     top: 55%;
@@ -156,9 +129,6 @@
     animation-delay: -4s;
   }
   
-  .packet-group-3 .trail-1 { left: -12px; }
-  .packet-group-3 .trail-2 { left: -24px; }
-  .packet-group-3 .trail-3 { left: -36px; }
 
   /* Vertical packet group animations */
   .packet-group-4 {
@@ -175,9 +145,13 @@
     animation: moveGroupDown 9s linear infinite;
   }
   
-  .packet-group-4 .trail-1 { top: -12px; }
-  .packet-group-4 .trail-2 { top: -24px; }
-  .packet-group-4 .trail-3 { top: -36px; }
+  .packet-group-4 .data-trail-line {
+    background: linear-gradient(to top, var(--accent-secondary), transparent);
+    width: 2px;
+    height: 60px;
+    left: 3px;
+    top: -60px;
+  }
 
   .packet-group-5 {
     left: 60%;
@@ -194,9 +168,13 @@
     animation-delay: -3s;
   }
   
-  .packet-group-5 .trail-1 { top: -12px; }
-  .packet-group-5 .trail-2 { top: -24px; }
-  .packet-group-5 .trail-3 { top: -36px; }
+  .packet-group-5 .data-trail-line {
+    background: linear-gradient(to top, var(--accent-secondary), transparent);
+    width: 2px;
+    height: 60px;
+    left: 3px;
+    top: -60px;
+  }
 
   .packet-group-6 {
     left: 80%;
