@@ -16,7 +16,12 @@ const { site, featured = false } = Astro.props;
   class:list={['site-card', { 'site-card--featured': featured }]}
   data-category={site.category}
 >
-  <div class="site-card__glow" style={`--card-color: ${site.color}`}></div>
+  <div class="site-card__border-animate">
+    <div class="border-square border-square--1"></div>
+    <div class="border-square border-square--2"></div>
+    <div class="border-square border-square--3"></div>
+    <div class="border-square border-square--4"></div>
+  </div>
   
   <div class="site-card__header">
     <div class="site-card__icon" style={`color: ${site.color}`}>
@@ -58,41 +63,121 @@ const { site, featured = false } = Astro.props;
     flex-direction: column;
     gap: var(--space-md);
     padding: var(--space-xl);
-    background: var(--bg-secondary);
+    background: rgba(var(--bg-secondary-rgb, 30, 41, 59), 0.4);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
     text-decoration: none;
     color: var(--text-primary);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
-    transform: perspective(1000px) rotateX(var(--card-rx)) rotateY(var(--card-ry));
-    transform-style: preserve-3d;
+    transition: background 0.3s, border-color 0.3s;
     overflow: hidden;
   }
   
-  .site-card__glow {
+  /* Animated border effect */
+  .site-card__border-animate {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--card-color);
+    inset: -1px;
+    border-radius: var(--radius-lg);
+    pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
   
-  .site-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-card), 0 0 30px rgba(0, 173, 238, 0.15);
+  .site-card:hover .site-card__border-animate {
+    opacity: 1;
   }
   
-  .site-card:hover .site-card__glow {
-    opacity: 1;
-    box-shadow: 0 0 30px var(--card-color);
+  .border-square {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-primary);
+    box-shadow: 0 0 12px var(--accent-primary);
+    opacity: 0;
+  }
+  
+  .site-card:hover .border-square {
+    animation: borderTrace 2s linear infinite;
+  }
+  
+  /* Square 1: Top edge */
+  .border-square--1 {
+    top: 0;
+    left: 0;
+  }
+  
+  .site-card:hover .border-square--1 {
+    animation: traceTop 2s linear infinite;
+  }
+  
+  /* Square 2: Right edge */
+  .border-square--2 {
+    top: 0;
+    right: 0;
+  }
+  
+  .site-card:hover .border-square--2 {
+    animation: traceRight 2s linear infinite;
+    animation-delay: 0.5s;
+  }
+  
+  /* Square 3: Bottom edge */
+  .border-square--3 {
+    bottom: 0;
+    right: 0;
+  }
+  
+  .site-card:hover .border-square--3 {
+    animation: traceBottom 2s linear infinite;
+    animation-delay: 1s;
+  }
+  
+  /* Square 4: Left edge */
+  .border-square--4 {
+    bottom: 0;
+    left: 0;
+  }
+  
+  .site-card:hover .border-square--4 {
+    animation: traceLeft 2s linear infinite;
+    animation-delay: 1.5s;
+  }
+  
+  @keyframes traceTop {
+    0% { left: 0; opacity: 0; }
+    5% { opacity: 1; }
+    25% { left: 100%; opacity: 1; }
+    30%, 100% { left: 100%; opacity: 0; }
+  }
+  
+  @keyframes traceRight {
+    0% { top: 0; opacity: 0; }
+    5% { opacity: 1; }
+    25% { top: 100%; opacity: 1; }
+    30%, 100% { top: 100%; opacity: 0; }
+  }
+  
+  @keyframes traceBottom {
+    0% { right: 0; opacity: 0; }
+    5% { opacity: 1; }
+    25% { right: 100%; opacity: 1; }
+    30%, 100% { right: 100%; opacity: 0; }
+  }
+  
+  @keyframes traceLeft {
+    0% { bottom: 0; opacity: 0; }
+    5% { opacity: 1; }
+    25% { bottom: 100%; opacity: 1; }
+    30%, 100% { bottom: 100%; opacity: 0; }
+  }
+  
+  .site-card:hover {
+    background: rgba(var(--bg-secondary-rgb, 30, 41, 59), 0.6);
+    border-color: var(--accent-primary);
   }
   
   .site-card--featured {
     grid-column: span 2;
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
   }
   
   @media (max-width: 768px) {
@@ -182,10 +267,10 @@ const { site, featured = false } = Astro.props;
     color: var(--accent-secondary);
   }
   
-  .site-card[data-category="core"]:hover .site-card__glow,
-  .site-card[data-category="labs"]:hover .site-card__glow {
+  .site-card[data-category="core"]:hover .border-square,
+  .site-card[data-category="labs"]:hover .border-square {
     background: var(--accent-secondary);
-    box-shadow: 0 0 30px var(--accent-secondary);
+    box-shadow: 0 0 12px var(--accent-secondary);
   }
   
   .site-card:hover .site-card__arrow {
