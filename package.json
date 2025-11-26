@@ -1,0 +1,29 @@
+{
+  "name": "wrld.one",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "WRLD.one - The unified directory for all WRLD sites and services",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WRLDInc/wrld.one.git"
+  },
+  "keywords": ["wrld", "directory", "portal"],
+  "author": "WRLD Inc.",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/WRLDInc/wrld.one/issues"
+  },
+  "homepage": "https://wrld.one",
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.11",
+    "astro": "^5.16.0",
+    "instantsearch.js": "^4.84.0",
+    "typesense": "^2.1.0"
+  }
+}

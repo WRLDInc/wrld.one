@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SiteCard from '../components/SiteCard.astro';
+import { sites, categories, getSitesByCategory } from '../data/sites';
+---
+
+<BaseLayout title="Services | WRLD.one" description="Explore all WRLD services - hosting, cloud, AI, domains, and more.">
+  <Header />
+  
+  <main>
+    <!-- Hero -->
+    <section class="services-hero">
+      <div class="container">
+        <h1 class="services-hero__title">Our Services</h1>
+        <p class="services-hero__text">
+          A comprehensive suite of infrastructure, hosting, and technology services designed to power your business.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Service Categories -->
+    {categories.map(category => {
+      const categorySites = getSitesByCategory(category.id);
+      return (
+        <section class="service-category" id={category.id}>
+          <div class="container">
+            <div class="category-header">
+              <div class="category-header__icon" style={`background: ${category.color}20; color: ${category.color}`}>
+                {category.id === 'core' ? '◆' : category.id === 'infrastructure' ? '◇' : category.id === 'services' ? '◈' : category.id === 'support' ? '○' : '⚗'}
+              </div>
+              <div class="category-header__content">
+                <h2 class="category-header__title">{category.name}</h2>
+                <p class="category-header__description">{category.description}</p>
+              </div>
+              <span class="category-header__count">{categorySites.length} services</span>
+            </div>
+            
+            <div class="category-grid">
+              {categorySites.map(site => (
+                <SiteCard site={site} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    })}
+    
+    <!-- Contact CTA -->
+    <section class="services-cta">
+      <div class="container">
+        <div class="services-cta__card">
+          <div class="services-cta__content">
+            <h2 class="services-cta__title">Need a Custom Solution?</h2>
+            <p class="services-cta__text">
+              Our team can help you build tailored infrastructure solutions that meet your unique requirements.
+            </p>
+          </div>
+          <div class="services-cta__actions">
+            <a href="https://wrld.support" class="btn btn-primary">Contact Us</a>
+            <a href="https://docs.wrld.tech" class="btn">View Docs</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>
+
+<style>
+  .services-hero {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+    background: linear-gradient(180deg, var(--bg-secondary), transparent);
+  }
+  
+  .services-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .services-hero__text {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Category Sections */
+  .service-category {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .service-category:nth-child(even) {
+    background: var(--bg-secondary);
+  }
+  
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+  
+  .category-header__icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: var(--radius-lg);
+  }
+  
+  .category-header__content {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .category-header__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .category-header__description {
+    color: var(--text-secondary);
+  }
+  
+  .category-header__count {
+    padding: var(--space-xs) var(--space-md);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  /* CTA */
+  .services-cta {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .services-cta__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding: var(--space-2xl);
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    flex-wrap: wrap;
+  }
+  
+  .services-cta__content {
+    flex: 1;
+    min-width: 280px;
+  }
+  
+  .services-cta__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .services-cta__text {
+    color: var(--text-secondary);
+  }
+  
+  .services-cta__actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .services-cta__card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .services-cta__actions {
+      justify-content: center;
+    }
+  }
+</style>

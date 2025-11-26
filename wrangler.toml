@@ -1,0 +1,17 @@
+name = "wrld-one"
+main = "dist/_worker.js"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./dist"
+
+[env.production]
+name = "wrld-one"
+route = { pattern = "wrld.one/*", zone_name = "wrld.one" }
+
+[env.staging]
+name = "wrld-one-staging"
+
+# Assets configuration
+[assets]
+directory = "./dist"

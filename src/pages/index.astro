@@ -1,0 +1,529 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SiteCard from '../components/SiteCard.astro';
+import { sites, categories } from '../data/sites';
+
+const featuredSites = sites.filter(s => ['wrld-tech', 'wrld-host', 'wrld-ai'].includes(s.id));
+const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].includes(s.id));
+---
+
+<BaseLayout title="WRLD.one | The WRLD Directory">
+  <Header />
+  
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__container container">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          <span>All Systems Operational</span>
+        </div>
+        
+        <h1 class="hero__title">
+          <span class="hero__title-main">WRLD</span>
+          <span class="hero__title-dot">.</span>
+          <span class="hero__title-suffix">one</span>
+        </h1>
+        
+        <p class="hero__subtitle">
+          The unified directory for all WRLD platforms, services, and infrastructure. 
+          Find everything you need in one place.
+        </p>
+        
+        <div class="hero__search">
+          <div class="search-box">
+            <svg class="search-box__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input 
+              type="text" 
+              class="search-box__input" 
+              placeholder="Search WRLD services, domains, documentation..."
+              id="heroSearch"
+            />
+            <kbd class="search-box__kbd">⌘K</kbd>
+          </div>
+        </div>
+        
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-value">{sites.length}</span>
+            <span class="hero__stat-label">Services</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">99.9%</span>
+            <span class="hero__stat-label">Uptime</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <span class="hero__stat-value">Global</span>
+            <span class="hero__stat-label">Infrastructure</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Decorative Elements -->
+      <div class="hero__decoration">
+        <div class="hero__line hero__line--1"></div>
+        <div class="hero__line hero__line--2"></div>
+        <div class="hero__line hero__line--3"></div>
+      </div>
+    </section>
+    
+    <!-- Featured Section -->
+    <section class="featured">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Core Platforms</h2>
+          <p class="section-subtitle">Our primary services powering the WRLD ecosystem</p>
+        </div>
+        
+        <div class="featured__grid">
+          {featuredSites.map(site => (
+            <SiteCard site={site} featured />
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- Categories Filter -->
+    <section class="directory">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">All Services</h2>
+          <p class="section-subtitle">Browse our complete directory of platforms and tools</p>
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="directory__filters">
+          <button class="filter-btn filter-btn--active" data-filter="all">
+            <span>All</span>
+            <span class="filter-btn__count">{sites.length}</span>
+          </button>
+          {categories.map(cat => (
+            <button class="filter-btn" data-filter={cat.id} style={`--filter-color: ${cat.color}`}>
+              <span>{cat.name}</span>
+              <span class="filter-btn__count">{sites.filter(s => s.category === cat.id).length}</span>
+            </button>
+          ))}
+        </div>
+        
+        <!-- Sites Grid -->
+        <div class="directory__grid">
+          {otherSites.map(site => (
+            <SiteCard site={site} />
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta__content">
+          <div class="cta__icon">◆</div>
+          <h2 class="cta__title">Need Help Finding Something?</h2>
+          <p class="cta__text">
+            Our support team is available 24/7 to help you navigate the WRLD ecosystem.
+          </p>
+          <div class="cta__actions">
+            <a href="https://wrld.support" class="btn btn-primary">
+              <span>Contact Support</span>
+              <span>→</span>
+            </a>
+            <a href="https://docs.wrld.tech" class="btn">
+              <span>View Documentation</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    position: relative;
+    padding: var(--space-3xl) 0;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .hero__container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+  }
+  
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    color: #22c55e;
+    margin-bottom: var(--space-xl);
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .hero__badge-dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: var(--space-lg);
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .hero__title-main {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero__title-dot {
+    color: var(--accent-gold);
+  }
+  
+  .hero__title-suffix {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  
+  .hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+    line-height: 1.7;
+    animation: slideUp 0.8s ease-out 0.1s backwards;
+  }
+  
+  /* Search Box */
+  .hero__search {
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+    animation: slideUp 0.8s ease-out 0.2s backwards;
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+  }
+  
+  .search-box:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px rgba(0, 173, 238, 0.15);
+  }
+  
+  .search-box__icon {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  
+  .search-box__input {
+    flex: 1;
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+  }
+  
+  .search-box__input::placeholder {
+    color: var(--text-muted);
+  }
+  
+  .search-box__kbd {
+    padding: 4px 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  /* Hero Stats */
+  .hero__stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xl);
+    animation: fadeIn 0.8s ease-out 0.3s backwards;
+  }
+  
+  .hero__stat {
+    text-align: center;
+  }
+  
+  .hero__stat-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  .hero__stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .hero__stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-default);
+  }
+  
+  /* Hero Decoration */
+  .hero__decoration {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .hero__line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    opacity: 0.1;
+  }
+  
+  .hero__line--1 {
+    top: 20%;
+    left: -10%;
+    right: -10%;
+    animation: lineSweep 8s ease-in-out infinite;
+  }
+  
+  .hero__line--2 {
+    top: 50%;
+    left: -10%;
+    right: -10%;
+    animation: lineSweep 8s ease-in-out infinite 2s;
+  }
+  
+  .hero__line--3 {
+    top: 80%;
+    left: -10%;
+    right: -10%;
+    animation: lineSweep 8s ease-in-out infinite 4s;
+  }
+  
+  @keyframes lineSweep {
+    0%, 100% { transform: translateX(-100%); opacity: 0; }
+    50% { transform: translateX(100%); opacity: 0.2; }
+  }
+  
+  /* Sections */
+  .featured, .directory {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .section-subtitle {
+    color: var(--text-secondary);
+  }
+  
+  /* Featured Grid */
+  .featured__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  /* Directory */
+  .directory__filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .filter-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+  
+  .filter-btn--active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--bg-primary);
+  }
+  
+  .filter-btn__count {
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+  }
+  
+  .filter-btn--active .filter-btn__count {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .directory__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  /* CTA Section */
+  .cta {
+    padding: var(--space-3xl) 0;
+    background: linear-gradient(180deg, transparent, var(--bg-secondary));
+  }
+  
+  .cta__content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .cta__icon {
+    font-size: 3rem;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-lg);
+    filter: drop-shadow(0 0 20px var(--accent-primary));
+  }
+  
+  .cta__title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+  }
+  
+  .cta__text {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.7;
+  }
+  
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      min-height: auto;
+      padding: var(--space-2xl) 0;
+    }
+    
+    .hero__stats {
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    
+    .hero__stat-divider {
+      width: 60px;
+      height: 1px;
+    }
+    
+    .featured__grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .directory__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Search functionality
+  const heroSearch = document.getElementById('heroSearch');
+  heroSearch?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      window.location.href = `/search?q=${encodeURIComponent(heroSearch.value)}`;
+    }
+  });
+  
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const siteCards = document.querySelectorAll('.site-card');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      
+      // Update active state
+      filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
+      btn.classList.add('filter-btn--active');
+      
+      // Filter cards
+      siteCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+          card.style.animation = 'fadeIn 0.4s ease-out';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

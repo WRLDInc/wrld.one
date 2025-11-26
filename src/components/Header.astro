@@ -1,0 +1,281 @@
+---
+const navLinks = [
+  { href: '/', label: 'Directory', icon: '◎' },
+  { href: '/services', label: 'Services', icon: '◇' },
+  { href: '/search', label: 'Search', icon: '⌘' },
+  { href: '/about', label: 'About', icon: '◈' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="header__container container">
+    <!-- Logo -->
+    <a href="/" class="header__logo">
+      <div class="logo-mark">
+        <div class="logo-cube">
+          <div class="cube-face cube-face--front"></div>
+          <div class="cube-face cube-face--back"></div>
+          <div class="cube-face cube-face--right"></div>
+          <div class="cube-face cube-face--left"></div>
+          <div class="cube-face cube-face--top"></div>
+          <div class="cube-face cube-face--bottom"></div>
+        </div>
+      </div>
+      <span class="logo-text">
+        <span class="logo-text__main">WRLD</span>
+        <span class="logo-text__separator">.</span>
+        <span class="logo-text__suffix">one</span>
+      </span>
+    </a>
+    
+    <!-- Navigation -->
+    <nav class="header__nav">
+      {navLinks.map(link => (
+        <a 
+          href={link.href} 
+          class:list={['nav-link', { 'nav-link--active': currentPath === link.href }]}
+        >
+          <span class="nav-link__icon">{link.icon}</span>
+          <span class="nav-link__label">{link.label}</span>
+        </a>
+      ))}
+    </nav>
+    
+    <!-- Actions -->
+    <div class="header__actions">
+      <button class="search-trigger" aria-label="Open search (⌘K)">
+        <span class="search-trigger__icon">⌘</span>
+        <span class="search-trigger__text">Search</span>
+        <span class="search-trigger__kbd">K</span>
+      </button>
+      
+      <a href="https://wrld.tech" target="_blank" rel="noopener" class="btn btn-primary">
+        <span>WRLD.tech</span>
+        <span class="btn__arrow">→</span>
+      </a>
+    </div>
+    
+    <!-- Mobile Menu Toggle -->
+    <button class="header__menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: var(--space-md) 0;
+    background: rgba(7, 11, 16, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+  }
+  
+  /* Logo */
+  .header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    perspective: 500px;
+  }
+  
+  .logo-cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cubeRotate 15s linear infinite;
+  }
+  
+  .cube-face {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+    border: 1px solid var(--accent-primary);
+    opacity: 0.9;
+  }
+  
+  .cube-face--front  { transform: translateZ(18px); }
+  .cube-face--back   { transform: rotateY(180deg) translateZ(18px); }
+  .cube-face--right  { transform: rotateY(90deg) translateZ(18px); }
+  .cube-face--left   { transform: rotateY(-90deg) translateZ(18px); }
+  .cube-face--top    { transform: rotateX(90deg) translateZ(18px); }
+  .cube-face--bottom { transform: rotateX(-90deg) translateZ(18px); }
+  
+  @keyframes cubeRotate {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+  }
+  
+  .logo-text {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .logo-text__main {
+    color: var(--accent-primary);
+  }
+  
+  .logo-text__separator {
+    color: var(--accent-secondary);
+    margin: 0 2px;
+  }
+  
+  .logo-text__suffix {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+  
+  /* Navigation */
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+  
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+  }
+  
+  .nav-link--active {
+    color: var(--accent-primary);
+    background: rgba(0, 255, 170, 0.1);
+  }
+  
+  .nav-link__icon {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+  
+  /* Actions */
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+  
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .search-trigger:hover {
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+  }
+  
+  .search-trigger__icon {
+    color: var(--text-muted);
+  }
+  
+  .search-trigger__kbd {
+    padding: 2px 6px;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  .btn__arrow {
+    transition: transform var(--transition-fast);
+  }
+  
+  .btn:hover .btn__arrow {
+    transform: translateX(4px);
+  }
+  
+  /* Mobile Menu Toggle */
+  .header__menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-sm);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .header__menu-toggle span {
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all var(--transition-fast);
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .header__nav {
+      display: none;
+    }
+    
+    .search-trigger__text {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header__actions .btn {
+      display: none;
+    }
+    
+    .header__menu-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  // Search trigger opens search page or modal
+  document.querySelector('.search-trigger')?.addEventListener('click', () => {
+    window.location.href = '/search';
+  });
+</script>

@@ -1,0 +1,188 @@
+---
+import type { WRLDSite } from '../data/sites';
+
+interface Props {
+  site: WRLDSite;
+  featured?: boolean;
+}
+
+const { site, featured = false } = Astro.props;
+---
+
+<a 
+  href={site.url} 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class:list={['site-card', { 'site-card--featured': featured }]}
+  data-category={site.category}
+>
+  <div class="site-card__glow" style={`--card-color: ${site.color}`}></div>
+  
+  <div class="site-card__header">
+    <div class="site-card__icon" style={`color: ${site.color}`}>
+      {site.icon}
+    </div>
+    <div class="site-card__status">
+      <span class:list={['status', `status--${site.status}`]}>
+        {site.status}
+      </span>
+    </div>
+  </div>
+  
+  <div class="site-card__content">
+    <h3 class="site-card__name">{site.name}</h3>
+    <p class="site-card__domain">{site.domain}</p>
+    <p class="site-card__description">{site.description}</p>
+  </div>
+  
+  <div class="site-card__features">
+    {site.features.slice(0, 3).map(feature => (
+      <span class="site-card__feature">{feature}</span>
+    ))}
+  </div>
+  
+  <div class="site-card__arrow">
+    <span>Visit</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</a>
+
+<style>
+  .site-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  
+  .site-card__glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--card-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .site-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .site-card:hover .site-card__glow {
+    opacity: 1;
+    box-shadow: 0 0 30px var(--card-color);
+  }
+  
+  .site-card--featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  }
+  
+  @media (max-width: 768px) {
+    .site-card--featured {
+      grid-column: span 1;
+    }
+  }
+  
+  .site-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .site-card__icon {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  
+  .site-card__content {
+    flex: 1;
+  }
+  
+  .site-card__name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+  }
+  
+  .site-card__domain {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .site-card__description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .site-card--featured .site-card__description {
+    -webkit-line-clamp: 3;
+  }
+  
+  .site-card__features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+  
+  .site-card__feature {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+  }
+  
+  .site-card__arrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+  }
+  
+  .site-card:hover .site-card__arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .site-card__arrow svg {
+    transition: transform 0.2s ease;
+  }
+  
+  .site-card:hover .site-card__arrow svg {
+    transform: translate(2px, -2px);
+  }
+</style>

@@ -1,0 +1,335 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="About | WRLD.one" description="Learn about WRLD Inc. and our mission to build the infrastructure for the modern internet.">
+  <Header />
+  
+  <main>
+    <!-- Hero -->
+    <section class="about-hero">
+      <div class="container">
+        <div class="about-hero__content">
+          <span class="about-hero__label">About Us</span>
+          <h1 class="about-hero__title">Building the Infrastructure for Tomorrow</h1>
+          <p class="about-hero__text">
+            WRLD Inc. provides enterprise-grade hosting, cloud infrastructure, and technology services 
+            for businesses of all sizes. We're committed to reliability, security, and innovation.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Values -->
+    <section class="values">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our Core Values</h2>
+          <p class="section-subtitle">The principles that guide everything we do</p>
+        </div>
+        
+        <div class="values__grid">
+          <div class="value-card">
+            <div class="value-card__icon" style="color: var(--accent-primary);">◆</div>
+            <h3 class="value-card__title">Reliability</h3>
+            <p class="value-card__text">
+              99.9% uptime SLA across all services. Your infrastructure should just work, 24/7/365.
+            </p>
+          </div>
+          
+          <div class="value-card">
+            <div class="value-card__icon" style="color: var(--accent-purple);">◇</div>
+            <h3 class="value-card__title">Security</h3>
+            <p class="value-card__text">
+              Enterprise-grade security with encryption at rest and in transit. Your data is always protected.
+            </p>
+          </div>
+          
+          <div class="value-card">
+            <div class="value-card__icon" style="color: var(--accent-gold);">◈</div>
+            <h3 class="value-card__title">Innovation</h3>
+            <p class="value-card__text">
+              Continuously improving our platform with cutting-edge technology and AI-powered solutions.
+            </p>
+          </div>
+          
+          <div class="value-card">
+            <div class="value-card__icon" style="color: var(--accent-secondary);">○</div>
+            <h3 class="value-card__title">Support</h3>
+            <p class="value-card__text">
+              Expert support team available around the clock. We're here when you need us most.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Stats -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats__grid">
+          <div class="stat-item">
+            <span class="stat-item__value">99.9%</span>
+            <span class="stat-item__label">Uptime SLA</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__value">50+</span>
+            <span class="stat-item__label">Global Data Centers</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__value">24/7</span>
+            <span class="stat-item__label">Expert Support</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__value">10K+</span>
+            <span class="stat-item__label">Active Customers</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Services Overview -->
+    <section class="services-overview">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">What We Offer</h2>
+          <p class="section-subtitle">Comprehensive solutions for your digital needs</p>
+        </div>
+        
+        <div class="services__grid">
+          <div class="service-item">
+            <h3 class="service-item__title">Web Hosting</h3>
+            <p class="service-item__text">High-performance hosting with SSD storage, free SSL, and one-click app installs.</p>
+            <a href="https://wrld.host" class="service-item__link">Learn More →</a>
+          </div>
+          
+          <div class="service-item">
+            <h3 class="service-item__title">Cloud Infrastructure</h3>
+            <p class="service-item__text">Scalable VPS and dedicated servers with global deployment options.</p>
+            <a href="https://cloud.wrld.host" class="service-item__link">Learn More →</a>
+          </div>
+          
+          <div class="service-item">
+            <h3 class="service-item__title">Domain Services</h3>
+            <p class="service-item__text">Register and manage domains with advanced DNS and WHOIS privacy.</p>
+            <a href="https://wrld.domains" class="service-item__link">Learn More →</a>
+          </div>
+          
+          <div class="service-item">
+            <h3 class="service-item__title">AI Solutions</h3>
+            <p class="service-item__text">Enterprise AI tools and APIs for automation and intelligence.</p>
+            <a href="https://wrld.ai" class="service-item__link">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA -->
+    <section class="about-cta">
+      <div class="container">
+        <div class="about-cta__content">
+          <h2 class="about-cta__title">Ready to Get Started?</h2>
+          <p class="about-cta__text">Join thousands of businesses that trust WRLD for their infrastructure needs.</p>
+          <div class="about-cta__actions">
+            <a href="https://wrld.host" class="btn btn-primary">Get Started</a>
+            <a href="https://wrld.support" class="btn">Contact Sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>
+
+<style>
+  .about-hero {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+  
+  .about-hero__content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .about-hero__label {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(0, 173, 238, 0.1);
+    border: 1px solid rgba(0, 173, 238, 0.3);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .about-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: var(--space-lg);
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .about-hero__text {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  
+  /* Values */
+  .values {
+    padding: var(--space-3xl) 0;
+    background: var(--bg-secondary);
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+  
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .section-subtitle {
+    color: var(--text-secondary);
+  }
+  
+  .values__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .value-card {
+    padding: var(--space-xl);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+  }
+  
+  .value-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+  }
+  
+  .value-card__icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-md);
+  }
+  
+  .value-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .value-card__text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  
+  /* Stats */
+  .stats {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+    text-align: center;
+  }
+  
+  .stat-item__value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .stat-item__label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+  
+  /* Services */
+  .services-overview {
+    padding: var(--space-3xl) 0;
+    background: var(--bg-secondary);
+  }
+  
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .service-item {
+    padding: var(--space-xl);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+  }
+  
+  .service-item__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .service-item__text {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+  }
+  
+  .service-item__link {
+    color: var(--accent-primary);
+    font-weight: 500;
+  }
+  
+  /* CTA */
+  .about-cta {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+  
+  .about-cta__content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .about-cta__title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+  }
+  
+  .about-cta__text {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .about-cta__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+</style>
