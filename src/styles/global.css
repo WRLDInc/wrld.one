@@ -1,46 +1,42 @@
 /* ==================== WRLD.ONE - Global Styles ==================== */
 /* Based on WRLD Inc Brand Guide - baseline.is/brand/wrld */
 
-/* CSS Variables - WRLD Brand */
+/* CSS Variables - Modern Blue/Orange */
 :root {
   /* Background Colors - Dark Theme */
-  --bg-void: #0a0c10;
-  --bg-primary: #182534;
-  --bg-secondary: #1e2d3d;
-  --bg-tertiary: #223244;
-  --bg-elevated: #2B3D51;
+  --bg-void: #0a0e1a;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-elevated: #475569;
   
-  /* Light mode backgrounds */
-  --bg-light: #fcfcfc;
-  --bg-light-secondary: #f5f5f5;
-  --bg-light-tertiary: #ebebeb;
-  
-  /* Accent Colors - WRLD Brand */
-  --accent-primary: #00adee;    /* Vivid Cerulean - Primary Blue */
-  --accent-secondary: #3A96DD;  /* SharePoint Accent 2 - Secondary Blue */
-  --accent-purple: #3d1f78;     /* Explorer of the Galaxies */
-  --accent-gold: #d48c2f;       /* Opulent - Gold/Amber */
-  --accent-danger: #e74c3c;
+  /* Accent Colors - Blue/Orange */
+  --accent-primary: #3b82f6;    /* Blue 500 */
+  --accent-secondary: #f97316;  /* Orange 500 */
+  --accent-light: #60a5fa;      /* Blue 400 */
+  --accent-orange-light: #fb923c; /* Orange 400 */
+  --accent-purple: #8b5cf6;     /* Purple accent */
+  --accent-danger: #ef4444;
   
   /* Text Colors */
-  --text-primary: #fcfcfc;
-  --text-secondary: #a8b8c8;
-  --text-muted: #616161;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   --text-accent: var(--accent-primary);
   
   /* Border Colors */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-default: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.18);
-  --border-glow: rgba(0, 173, 238, 0.4);
+  --border-subtle: rgba(148, 163, 184, 0.08);
+  --border-default: rgba(148, 163, 184, 0.12);
+  --border-strong: rgba(148, 163, 184, 0.18);
+  --border-glow: rgba(59, 130, 246, 0.4);
   
-  /* Gradients - WRLD Brand */
+  /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-purple) 100%);
-  --gradient-blue: linear-gradient(135deg, #00adee 0%, #004a66 100%);
-  --gradient-gold: linear-gradient(135deg, #d48c2f 0%, #5b3c14 100%);
-  --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(0, 173, 238, 0.12) 0%, transparent 50%),
-                   radial-gradient(ellipse at 80% 100%, rgba(61, 31, 120, 0.1) 0%, transparent 50%),
-                   radial-gradient(ellipse at 100% 50%, rgba(212, 140, 47, 0.06) 0%, transparent 40%);
+  --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  --gradient-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+                   radial-gradient(ellipse at 80% 100%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+                   radial-gradient(ellipse at 100% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
   
   /* Typography - WRLD Brand Fonts */
   --font-display: 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -63,9 +59,9 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
   
-  /* Shadows - WRLD Brand */
-  --shadow-glow: 0 0 40px rgba(0, 173, 238, 0.2);
-  --shadow-glow-strong: 0 0 80px rgba(0, 173, 238, 0.35);
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.2);
+  --shadow-glow-strong: 0 0 80px rgba(59, 130, 246, 0.35);
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.4);
   
@@ -73,6 +69,30 @@
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== Light Mode ==================== */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-void: #f8fafc;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-elevated: #e2e8f0;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    
+    --border-subtle: rgba(15, 23, 42, 0.08);
+    --border-default: rgba(15, 23, 42, 0.12);
+    --border-strong: rgba(15, 23, 42, 0.18);
+    --border-glow: rgba(59, 130, 246, 0.3);
+    
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.15);
+  }
 }
 
 /* ==================== Reset ==================== */

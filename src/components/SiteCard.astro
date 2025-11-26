@@ -173,6 +173,18 @@ const { site, featured = false } = Astro.props;
     transition: all 0.3s ease;
   }
   
+  /* Orange accent for core services */
+  .site-card[data-category="core"] .site-card__arrow,
+  .site-card[data-category="labs"] .site-card__arrow {
+    color: var(--accent-secondary);
+  }
+  
+  .site-card[data-category="core"]:hover .site-card__glow,
+  .site-card[data-category="labs"]:hover .site-card__glow {
+    background: var(--accent-secondary);
+    box-shadow: 0 0 30px var(--accent-secondary);
+  }
+  
   .site-card:hover .site-card__arrow {
     opacity: 1;
     transform: translateX(0);
