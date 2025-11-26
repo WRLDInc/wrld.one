@@ -14,13 +14,48 @@
   <div class="flow-line vertical flow-7"></div>
   <div class="flow-line vertical flow-8"></div>
   
-  <!-- Data packets -->
-  <div class="data-packet packet-1"></div>
-  <div class="data-packet packet-2"></div>
-  <div class="data-packet packet-3"></div>
-  <div class="data-packet packet-4"></div>
-  <div class="data-packet packet-5"></div>
-  <div class="data-packet packet-6"></div>
+  <!-- Data packets with trailing effect -->
+  <div class="data-packet-group packet-group-1">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
+  
+  <div class="data-packet-group packet-group-2">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
+  
+  <div class="data-packet-group packet-group-3">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
+  
+  <div class="data-packet-group packet-group-4">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
+  
+  <div class="data-packet-group packet-group-5">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
+  
+  <div class="data-packet-group packet-group-6">
+    <div class="data-packet packet-head"></div>
+    <div class="data-trail trail-1"></div>
+    <div class="data-trail trail-2"></div>
+    <div class="data-trail trail-3"></div>
+  </div>
 </div>
 
 <style>
@@ -61,84 +96,148 @@
   .flow-7 { left: 60%; }
   .flow-8 { left: 80%; }
 
-  /* Data packets - sharp squares */
+  /* Data packet groups with trails */
+  .data-packet-group {
+    position: absolute;
+  }
+  
   .data-packet {
     position: absolute;
     width: 8px;
     height: 8px;
     background: var(--accent-primary);
-    box-shadow: 0 0 20px currentColor;
-    opacity: 0.8;
+    box-shadow: 0 0 20px currentColor, 0 0 10px currentColor;
+    opacity: 1;
+  }
+  
+  .data-trail {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px currentColor;
+  }
+  
+  .trail-1 {
+    opacity: 0.6;
+  }
+  
+  .trail-2 {
+    opacity: 0.3;
+  }
+  
+  .trail-3 {
+    opacity: 0.1;
   }
 
-  /* Horizontal packet animations */
-  .packet-1 {
+  /* Horizontal packet group animations */
+  .packet-group-1 {
     top: 15%;
-    animation: moveRight 8s linear infinite;
+    animation: moveGroupRight 8s linear infinite;
   }
+  
+  .packet-group-1 .trail-1 { left: -12px; }
+  .packet-group-1 .trail-2 { left: -24px; }
+  .packet-group-1 .trail-3 { left: -36px; }
 
-  .packet-2 {
+  .packet-group-2 {
     top: 35%;
-    animation: moveRight 10s linear infinite;
+    animation: moveGroupRight 10s linear infinite;
     animation-delay: -2s;
   }
+  
+  .packet-group-2 .trail-1 { left: -12px; }
+  .packet-group-2 .trail-2 { left: -24px; }
+  .packet-group-2 .trail-3 { left: -36px; }
 
-  .packet-3 {
+  .packet-group-3 {
     top: 55%;
-    animation: moveRight 12s linear infinite;
+    animation: moveGroupRight 12s linear infinite;
     animation-delay: -4s;
   }
+  
+  .packet-group-3 .trail-1 { left: -12px; }
+  .packet-group-3 .trail-2 { left: -24px; }
+  .packet-group-3 .trail-3 { left: -36px; }
 
-  /* Vertical packet animations */
-  .packet-4 {
+  /* Vertical packet group animations */
+  .packet-group-4 {
     left: 20%;
-    background: var(--accent-secondary);
-    animation: moveDown 9s linear infinite;
   }
-
-  .packet-5 {
-    left: 60%;
+  
+  .packet-group-4 .data-packet,
+  .packet-group-4 .data-trail {
     background: var(--accent-secondary);
-    animation: moveDown 11s linear infinite;
+    box-shadow: 0 0 20px var(--accent-secondary), 0 0 10px var(--accent-secondary);
+  }
+  
+  .packet-group-4 {
+    animation: moveGroupDown 9s linear infinite;
+  }
+  
+  .packet-group-4 .trail-1 { top: -12px; }
+  .packet-group-4 .trail-2 { top: -24px; }
+  .packet-group-4 .trail-3 { top: -36px; }
+
+  .packet-group-5 {
+    left: 60%;
+  }
+  
+  .packet-group-5 .data-packet,
+  .packet-group-5 .data-trail {
+    background: var(--accent-secondary);
+    box-shadow: 0 0 20px var(--accent-secondary), 0 0 10px var(--accent-secondary);
+  }
+  
+  .packet-group-5 {
+    animation: moveGroupDown 11s linear infinite;
     animation-delay: -3s;
   }
+  
+  .packet-group-5 .trail-1 { top: -12px; }
+  .packet-group-5 .trail-2 { top: -24px; }
+  .packet-group-5 .trail-3 { top: -36px; }
 
-  .packet-6 {
+  .packet-group-6 {
     left: 80%;
-    animation: moveDown 10s linear infinite;
+    animation: moveGroupDown 10s linear infinite;
     animation-delay: -5s;
   }
+  
+  .packet-group-6 .trail-1 { top: -12px; }
+  .packet-group-6 .trail-2 { top: -24px; }
+  .packet-group-6 .trail-3 { top: -36px; }
 
-  @keyframes moveRight {
+  @keyframes moveGroupRight {
     0% {
-      left: -10px;
+      left: -50px;
       opacity: 0;
     }
-    5% {
-      opacity: 0.8;
+    3% {
+      opacity: 1;
     }
-    95% {
-      opacity: 0.8;
+    97% {
+      opacity: 1;
     }
     100% {
-      left: calc(100% + 10px);
+      left: calc(100% + 50px);
       opacity: 0;
     }
   }
 
-  @keyframes moveDown {
+  @keyframes moveGroupDown {
     0% {
-      top: -10px;
+      top: -50px;
       opacity: 0;
     }
-    5% {
-      opacity: 0.8;
+    3% {
+      opacity: 1;
     }
-    95% {
-      opacity: 0.8;
+    97% {
+      opacity: 1;
     }
     100% {
-      top: calc(100% + 10px);
+      top: calc(100% + 50px);
       opacity: 0;
     }
   }

@@ -16,12 +16,19 @@ const { site, featured = false } = Astro.props;
   class:list={['site-card', { 'site-card--featured': featured }]}
   data-category={site.category}
 >
-  <div class="site-card__border-animate">
-    <div class="border-square border-square--1"></div>
-    <div class="border-square border-square--2"></div>
-    <div class="border-square border-square--3"></div>
-    <div class="border-square border-square--4"></div>
-  </div>
+  <svg class="site-card__border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id={`gradient-${site.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="var(--accent-primary)" stop-opacity="0" />
+        <stop offset="50%" stop-color="var(--accent-primary)" stop-opacity="1" />
+        <stop offset="100%" stop-color="var(--accent-primary)" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <rect class="border-rect" x="0" y="0" width="100" height="100" fill="none" stroke={`url(#gradient-${site.id})`} stroke-width="0.5" vector-effect="non-scaling-stroke" />
+  </svg>
+  
+  <div class="border-tracer border-tracer--1"></div>
+  <div class="border-tracer border-tracer--2"></div>
   
   <div class="site-card__header">
     <div class="site-card__icon" style={`color: ${site.color}`}>
@@ -73,102 +80,144 @@ const { site, featured = false } = Astro.props;
     overflow: hidden;
   }
   
-  /* Animated border effect */
-  .site-card__border-animate {
+  /* SVG Border Drawing Effect */
+  .site-card__border-svg {
     position: absolute;
-    inset: -1px;
-    border-radius: var(--radius-lg);
+    inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 1;
+  }
+  
+  .border-rect {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    filter: drop-shadow(0 0 4px var(--accent-primary));
+    transition: stroke-dashoffset 0.6s ease-out, opacity 0.3s ease-out;
+  }
+  
+  /* Draw border on hover */
+  .site-card:hover .border-rect {
+    stroke-dashoffset: 0;
+    animation: borderPulse 2s ease-in-out infinite;
+  }
+  
+  /* Tron-style breakaway on hover out */
+  .site-card:not(:hover) .border-rect {
+    stroke-dashoffset: -400;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: stroke-dashoffset 0.4s ease-in, opacity 0.4s ease-in;
   }
   
-  .site-card:hover .site-card__border-animate {
-    opacity: 1;
+  @keyframes borderPulse {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--accent-primary)); }
+    50% { filter: drop-shadow(0 0 8px var(--accent-primary)); }
   }
   
-  .border-square {
+  /* Tracer squares that "draw" the border */
+  .border-tracer {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background: var(--accent-primary);
-    box-shadow: 0 0 12px var(--accent-primary);
+    box-shadow: 0 0 16px var(--accent-primary), 0 0 8px var(--accent-primary);
     opacity: 0;
+    pointer-events: none;
+    z-index: 2;
   }
   
-  .site-card:hover .border-square {
-    animation: borderTrace 2s linear infinite;
-  }
-  
-  /* Square 1: Top edge */
-  .border-square--1 {
-    top: 0;
-    left: 0;
-  }
-  
-  .site-card:hover .border-square--1 {
-    animation: traceTop 2s linear infinite;
-  }
-  
-  /* Square 2: Right edge */
-  .border-square--2 {
+  /* Tracer 1: Starts top-right, goes around clockwise */
+  .border-tracer--1 {
     top: 0;
     right: 0;
   }
   
-  .site-card:hover .border-square--2 {
-    animation: traceRight 2s linear infinite;
-    animation-delay: 0.5s;
+  .site-card:hover .border-tracer--1 {
+    animation: tracerPath1 1.6s ease-in-out forwards;
   }
   
-  /* Square 3: Bottom edge */
-  .border-square--3 {
-    bottom: 0;
-    right: 0;
-  }
-  
-  .site-card:hover .border-square--3 {
-    animation: traceBottom 2s linear infinite;
-    animation-delay: 1s;
-  }
-  
-  /* Square 4: Left edge */
-  .border-square--4 {
+  /* Tracer 2: Starts bottom-left, goes around counter-clockwise */  
+  .border-tracer--2 {
     bottom: 0;
     left: 0;
   }
   
-  .site-card:hover .border-square--4 {
-    animation: traceLeft 2s linear infinite;
-    animation-delay: 1.5s;
+  .site-card:hover .border-tracer--2 {
+    animation: tracerPath2 1.6s ease-in-out forwards;
+    animation-delay: 0.1s;
   }
   
-  @keyframes traceTop {
-    0% { left: 0; opacity: 0; }
+  @keyframes tracerPath1 {
+    0% { 
+      top: 0; right: 0; 
+      opacity: 0;
+    }
     5% { opacity: 1; }
-    25% { left: 100%; opacity: 1; }
-    30%, 100% { left: 100%; opacity: 0; }
+    25% { 
+      top: 0; right: 100%; 
+      opacity: 1;
+    }
+    30% { 
+      top: 0; right: 100%; left: 0;
+      opacity: 1;
+    }
+    50% { 
+      top: 100%; left: 0; 
+      opacity: 1;
+    }
+    55% {
+      top: 100%; bottom: 0; left: 0;
+      opacity: 1;
+    }
+    75% { 
+      bottom: 0; left: 100%; right: 0;
+      opacity: 1;
+    }
+    80% {
+      bottom: 0; right: 0;
+      opacity: 1;
+    }
+    100% { 
+      top: 0; right: 0;
+      opacity: 0;
+    }
   }
   
-  @keyframes traceRight {
-    0% { top: 0; opacity: 0; }
+  @keyframes tracerPath2 {
+    0% { 
+      bottom: 0; left: 0; 
+      opacity: 0;
+    }
     5% { opacity: 1; }
-    25% { top: 100%; opacity: 1; }
-    30%, 100% { top: 100%; opacity: 0; }
-  }
-  
-  @keyframes traceBottom {
-    0% { right: 0; opacity: 0; }
-    5% { opacity: 1; }
-    25% { right: 100%; opacity: 1; }
-    30%, 100% { right: 100%; opacity: 0; }
-  }
-  
-  @keyframes traceLeft {
-    0% { bottom: 0; opacity: 0; }
-    5% { opacity: 1; }
-    25% { bottom: 100%; opacity: 1; }
-    30%, 100% { bottom: 100%; opacity: 0; }
+    25% { 
+      bottom: 0; left: 100%; right: 0;
+      opacity: 1;
+    }
+    30% { 
+      bottom: 0; right: 0;
+      opacity: 1;
+    }
+    50% { 
+      bottom: 100%; top: 0; right: 0; 
+      opacity: 1;
+    }
+    55% {
+      top: 0; right: 0;
+      opacity: 1;
+    }
+    75% { 
+      top: 0; right: 100%; left: 0;
+      opacity: 1;
+    }
+    80% {
+      top: 0; left: 0;
+      opacity: 1;
+    }
+    100% { 
+      bottom: 0; left: 0;
+      opacity: 0;
+    }
   }
   
   .site-card:hover {
@@ -267,10 +316,26 @@ const { site, featured = false } = Astro.props;
     color: var(--accent-secondary);
   }
   
-  .site-card[data-category="core"]:hover .border-square,
-  .site-card[data-category="labs"]:hover .border-square {
+  .site-card[data-category="core"] .border-tracer,
+  .site-card[data-category="labs"] .border-tracer {
     background: var(--accent-secondary);
-    box-shadow: 0 0 12px var(--accent-secondary);
+    box-shadow: 0 0 16px var(--accent-secondary), 0 0 8px var(--accent-secondary);
+  }
+  
+  .site-card[data-category="core"] .border-rect,
+  .site-card[data-category="labs"] .border-rect {
+    stroke: var(--accent-secondary);
+    filter: drop-shadow(0 0 4px var(--accent-secondary));
+  }
+  
+  .site-card[data-category="core"]:hover .border-rect,
+  .site-card[data-category="labs"]:hover .border-rect {
+    animation: borderPulseOrange 2s ease-in-out infinite;
+  }
+  
+  @keyframes borderPulseOrange {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--accent-secondary)); }
+    50% { filter: drop-shadow(0 0 8px var(--accent-secondary)); }
   }
   
   .site-card:hover .site-card__arrow {
