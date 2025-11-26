@@ -188,9 +188,17 @@ const { title, description = 'WRLD.one - The unified directory for all WRLD site
   .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
-    animation: orbFloat 20s ease-in-out infinite;
+    filter: blur(100px);
+    opacity: 0.15;
+    animation: orbFloat 25s ease-in-out infinite;
+  }
+  
+  /* Hide orbs in light mode for stark look */
+  [data-theme="light"] .orb,
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .orb {
+      display: none;
+    }
   }
   
   .orb--1 {
@@ -200,7 +208,7 @@ const { title, description = 'WRLD.one - The unified directory for all WRLD site
     top: -150px;
     left: -150px;
     animation-delay: 0s;
-    opacity: 0.25;
+    opacity: 0.12;
   }
   
   .orb--2 {
@@ -210,7 +218,7 @@ const { title, description = 'WRLD.one - The unified directory for all WRLD site
     bottom: -100px;
     right: -100px;
     animation-delay: -7s;
-    opacity: 0.2;
+    opacity: 0.1;
   }
   
   .orb--3 {
@@ -220,7 +228,7 @@ const { title, description = 'WRLD.one - The unified directory for all WRLD site
     top: 40%;
     right: 15%;
     animation-delay: -14s;
-    opacity: 0.15;
+    opacity: 0.08;
   }
   
   @keyframes orbFloat {
