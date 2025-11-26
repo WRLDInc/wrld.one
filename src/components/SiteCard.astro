@@ -17,18 +17,19 @@ const { site, featured = false } = Astro.props;
   data-category={site.category}
 >
   <svg class="site-card__border-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id={`gradient-${site.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="var(--accent-primary)" stop-opacity="0" />
-        <stop offset="50%" stop-color="var(--accent-primary)" stop-opacity="1" />
-        <stop offset="100%" stop-color="var(--accent-primary)" stop-opacity="0" />
-      </linearGradient>
-    </defs>
-    <rect class="border-rect" x="0" y="0" width="100" height="100" fill="none" stroke={`url(#gradient-${site.id})`} stroke-width="0.5" vector-effect="non-scaling-stroke" />
+    <rect 
+      class="border-rect" 
+      x="0.5" 
+      y="0.5" 
+      width="99" 
+      height="99" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="0.5" 
+      vector-effect="non-scaling-stroke"
+      pathLength="1"
+    />
   </svg>
-  
-  <div class="border-tracer border-tracer--1"></div>
-  <div class="border-tracer border-tracer--2"></div>
   
   <div class="site-card__header">
     <div class="site-card__icon" style={`color: ${site.color}`}>
@@ -61,6 +62,45 @@ const { site, featured = false } = Astro.props;
   </div>
 </a>
 
+<script>
+  import { animate, hover } from 'motion';
+
+  // Initialize animations for all site cards
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.site-card');
+    
+    cards.forEach(card => {
+      const rect = card.querySelector('.border-rect') as SVGRectElement;
+      if (!rect) return;
+      
+      // Set initial state
+      rect.style.strokeDasharray = '1';
+      rect.style.strokeDashoffset = '1';
+      rect.style.opacity = '0';
+      
+      // Setup hover animation
+      hover(card as HTMLElement, () => {
+        // Fade in and draw border on hover
+        animate(rect, { opacity: 1 }, { duration: 0.1 });
+        const drawIn = animate(
+          rect,
+          { strokeDashoffset: 0 },
+          { duration: 0.8, easing: [0.22, 1, 0.36, 1] } // Custom easeOutExpo
+        );
+        
+        return () => {
+          // Draw out and fade border on hover end
+          animate(
+            rect,
+            { strokeDashoffset: -1, opacity: 0 },
+            { duration: 0.5, easing: [0.64, 0, 0.78, 0] } // Custom easeInExpo
+          );
+        };
+      });
+    });
+  });
+</script>
+
 <style>
   .site-card {
     --card-rx: 0deg;
@@ -88,136 +128,12 @@ const { site, featured = false } = Astro.props;
     height: 100%;
     pointer-events: none;
     z-index: 1;
+    color: var(--accent-primary);
   }
   
   .border-rect {
-    stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    filter: drop-shadow(0 0 4px var(--accent-primary));
-    transition: stroke-dashoffset 0.6s ease-out, opacity 0.3s ease-out;
-  }
-  
-  /* Draw border on hover */
-  .site-card:hover .border-rect {
-    stroke-dashoffset: 0;
-    animation: borderPulse 2s ease-in-out infinite;
-  }
-  
-  /* Tron-style breakaway on hover out */
-  .site-card:not(:hover) .border-rect {
-    stroke-dashoffset: -400;
-    opacity: 0;
-    transition: stroke-dashoffset 0.4s ease-in, opacity 0.4s ease-in;
-  }
-  
-  @keyframes borderPulse {
-    0%, 100% { filter: drop-shadow(0 0 4px var(--accent-primary)); }
-    50% { filter: drop-shadow(0 0 8px var(--accent-primary)); }
-  }
-  
-  /* Tracer squares that "draw" the border */
-  .border-tracer {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: var(--accent-primary);
-    box-shadow: 0 0 16px var(--accent-primary), 0 0 8px var(--accent-primary);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 2;
-  }
-  
-  /* Tracer 1: Starts top-right, goes around clockwise */
-  .border-tracer--1 {
-    top: 0;
-    right: 0;
-  }
-  
-  .site-card:hover .border-tracer--1 {
-    animation: tracerPath1 1.6s ease-in-out forwards;
-  }
-  
-  /* Tracer 2: Starts bottom-left, goes around counter-clockwise */  
-  .border-tracer--2 {
-    bottom: 0;
-    left: 0;
-  }
-  
-  .site-card:hover .border-tracer--2 {
-    animation: tracerPath2 1.6s ease-in-out forwards;
-    animation-delay: 0.1s;
-  }
-  
-  @keyframes tracerPath1 {
-    0% { 
-      top: 0; right: 0; 
-      opacity: 0;
-    }
-    5% { opacity: 1; }
-    25% { 
-      top: 0; right: 100%; 
-      opacity: 1;
-    }
-    30% { 
-      top: 0; right: 100%; left: 0;
-      opacity: 1;
-    }
-    50% { 
-      top: 100%; left: 0; 
-      opacity: 1;
-    }
-    55% {
-      top: 100%; bottom: 0; left: 0;
-      opacity: 1;
-    }
-    75% { 
-      bottom: 0; left: 100%; right: 0;
-      opacity: 1;
-    }
-    80% {
-      bottom: 0; right: 0;
-      opacity: 1;
-    }
-    100% { 
-      top: 0; right: 0;
-      opacity: 0;
-    }
-  }
-  
-  @keyframes tracerPath2 {
-    0% { 
-      bottom: 0; left: 0; 
-      opacity: 0;
-    }
-    5% { opacity: 1; }
-    25% { 
-      bottom: 0; left: 100%; right: 0;
-      opacity: 1;
-    }
-    30% { 
-      bottom: 0; right: 0;
-      opacity: 1;
-    }
-    50% { 
-      bottom: 100%; top: 0; right: 0; 
-      opacity: 1;
-    }
-    55% {
-      top: 0; right: 0;
-      opacity: 1;
-    }
-    75% { 
-      top: 0; right: 100%; left: 0;
-      opacity: 1;
-    }
-    80% {
-      top: 0; left: 0;
-      opacity: 1;
-    }
-    100% { 
-      bottom: 0; left: 0;
-      opacity: 0;
-    }
+    filter: drop-shadow(0 0 6px currentColor);
+    will-change: stroke-dashoffset, opacity;
   }
   
   .site-card:hover {
@@ -310,32 +226,15 @@ const { site, featured = false } = Astro.props;
     transition: all 0.3s ease;
   }
   
-  /* Orange accent for core services */
+  /* Orange accent for core/labs services */
   .site-card[data-category="core"] .site-card__arrow,
   .site-card[data-category="labs"] .site-card__arrow {
     color: var(--accent-secondary);
   }
   
-  .site-card[data-category="core"] .border-tracer,
-  .site-card[data-category="labs"] .border-tracer {
-    background: var(--accent-secondary);
-    box-shadow: 0 0 16px var(--accent-secondary), 0 0 8px var(--accent-secondary);
-  }
-  
-  .site-card[data-category="core"] .border-rect,
-  .site-card[data-category="labs"] .border-rect {
-    stroke: var(--accent-secondary);
-    filter: drop-shadow(0 0 4px var(--accent-secondary));
-  }
-  
-  .site-card[data-category="core"]:hover .border-rect,
-  .site-card[data-category="labs"]:hover .border-rect {
-    animation: borderPulseOrange 2s ease-in-out infinite;
-  }
-  
-  @keyframes borderPulseOrange {
-    0%, 100% { filter: drop-shadow(0 0 4px var(--accent-secondary)); }
-    50% { filter: drop-shadow(0 0 8px var(--accent-secondary)); }
+  .site-card[data-category="core"] .site-card__border-svg,
+  .site-card[data-category="labs"] .site-card__border-svg {
+    color: var(--accent-secondary);
   }
   
   .site-card:hover .site-card__arrow {

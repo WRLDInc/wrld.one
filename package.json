@@ -28,6 +28,7 @@
     "@astrojs/cloudflare": "^12.6.11",
     "astro": "^5.16.0",
     "instantsearch.js": "^4.84.0",
+    "motion": "^12.23.24",
     "typesense": "^2.1.0"
   },
   "devDependencies": {
