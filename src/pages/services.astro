@@ -23,18 +23,28 @@ import { sites, categories, getSitesByCategory } from '../data/sites';
     <!-- Service Categories -->
     {categories.map(category => {
       const categorySites = getSitesByCategory(category.id);
+      const getIcon = (id: string) => {
+        switch(id) {
+          case 'core': return '◆';
+          case 'infrastructure': return '◇';
+          case 'services': return '◈';
+          case 'support': return '○';
+          case 'labs': return '⚗';
+          case 'partners': return '⤴';
+          default: return '◆';
+        }
+      };
       return (
         <section class="service-category" id={category.id}>
           <div class="container">
             <div class="category-header">
               <div class="category-header__icon" style={`background: ${category.color}20; color: ${category.color}`}>
-                {category.id === 'core' ? '◆' : category.id === 'infrastructure' ? '◇' : category.id === 'services' ? '◈' : category.id === 'support' ? '○' : '⚗'}
+                {getIcon(category.id)}
               </div>
               <div class="category-header__content">
                 <h2 class="category-header__title">{category.name}</h2>
                 <p class="category-header__description">{category.description}</p>
               </div>
-              <span class="category-header__count">{categorySites.length} services</span>
             </div>
             
             <div class="category-grid">
@@ -134,14 +144,6 @@ import { sites, categories, getSitesByCategory } from '../data/sites';
   
   .category-header__description {
     color: var(--text-secondary);
-  }
-  
-  .category-header__count {
-    padding: var(--space-xs) var(--space-md);
-    background: var(--bg-tertiary);
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    color: var(--text-muted);
   }
   
   .category-grid {
