@@ -51,6 +51,8 @@ const { site, featured = false } = Astro.props;
 
 <style>
   .site-card {
+    --card-rx: 0deg;
+    --card-ry: 0deg;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -61,7 +63,9 @@ const { site, featured = false } = Astro.props;
     border-radius: var(--radius-lg);
     text-decoration: none;
     color: var(--text-primary);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s, border-color 0.3s;
+    transform: perspective(1000px) rotateX(var(--card-rx)) rotateY(var(--card-ry));
+    transform-style: preserve-3d;
     overflow: hidden;
   }
   
@@ -78,8 +82,7 @@ const { site, featured = false } = Astro.props;
   
   .site-card:hover {
     border-color: var(--border-strong);
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-card), 0 0 30px rgba(0, 173, 238, 0.15);
   }
   
   .site-card:hover .site-card__glow {

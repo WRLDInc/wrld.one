@@ -1,0 +1,127 @@
+---
+---
+
+<div class="map-background" aria-hidden="true">
+  <svg class="map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#00adee;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#d48c2f;stop-opacity:0.6" />
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <!-- Grid lines -->
+    <g class="grid" stroke="currentColor" stroke-width="0.5" opacity="0.15">
+      <line x1="0" y1="125" x2="1000" y2="125" />
+      <line x1="0" y1="250" x2="1000" y2="250" />
+      <line x1="0" y1="375" x2="1000" y2="375" />
+      <line x1="200" y1="0" x2="200" y2="500" />
+      <line x1="400" y1="0" x2="400" y2="500" />
+      <line x1="600" y1="0" x2="600" y2="500" />
+      <line x1="800" y1="0" x2="800" y2="500" />
+    </g>
+
+    <!-- Simplified North America outline -->
+    <path class="continent" d="M 150 180 Q 180 140, 220 120 Q 260 110, 290 130 Q 310 150, 300 180 Q 280 220, 240 230 Q 200 240, 170 220 Q 150 200, 150 180 Z" />
+    
+    <!-- Simplified Europe outline -->
+    <path class="continent" d="M 480 140 Q 510 120, 540 125 Q 570 130, 580 155 Q 575 175, 550 180 Q 520 175, 495 165 Q 480 155, 480 140 Z" />
+
+    <!-- Data flow paths -->
+    <g class="flows" filter="url(#glow)">
+      <path class="flow flow-1" d="M 180 180 Q 280 120 380 160" stroke="url(#flowGradient)" />
+      <path class="flow flow-2" d="M 380 160 Q 480 100 520 140" stroke="url(#flowGradient)" />
+      <path class="flow flow-3" d="M 520 140 Q 680 80 780 200" stroke="url(#flowGradient)" />
+      <path class="flow flow-4" d="M 220 180 Q 400 60 600 140" stroke="url(#flowGradient)" />
+    </g>
+
+    <!-- Server nodes -->
+    <g class="nodes" filter="url(#glow)">
+      <circle class="node" cx="180" cy="180" r="3" />
+      <circle class="node" cx="380" cy="160" r="3" />
+      <circle class="node" cx="520" cy="140" r="3" />
+      <circle class="node" cx="780" cy="200" r="3" />
+      <circle class="node" cx="220" cy="180" r="3" />
+      <circle class="node" cx="600" cy="140" r="3" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .map-background {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .map-svg {
+    width: min(1200px, 100%);
+    height: auto;
+    color: var(--text-muted);
+    opacity: 0.4;
+  }
+
+  .continent {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 0.35;
+    stroke-dasharray: 4 8;
+  }
+
+  .flows .flow {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 5 15;
+    animation: flowAnimation 8s linear infinite;
+    opacity: 0.5;
+  }
+
+  .flow-2 { animation-delay: -2s; }
+  .flow-3 { animation-delay: -4s; }
+  .flow-4 { animation-delay: -6s; }
+
+  @keyframes flowAnimation {
+    to {
+      stroke-dashoffset: -400;
+    }
+  }
+
+  .nodes .node {
+    fill: #00adee;
+    animation: nodePulse 3s ease-in-out infinite;
+  }
+
+  .nodes .node:nth-child(2) { animation-delay: 0.5s; }
+  .nodes .node:nth-child(3) { animation-delay: 1s; }
+  .nodes .node:nth-child(4) { animation-delay: 1.5s; }
+  .nodes .node:nth-child(5) { animation-delay: 2s; }
+  .nodes .node:nth-child(6) { animation-delay: 2.5s; }
+
+  @keyframes nodePulse {
+    0%, 100% { opacity: 0.8; r: 3; }
+    50% { opacity: 1; r: 5; }
+  }
+
+  @media (max-width: 768px) {
+    .map-svg {
+      opacity: 0.25;
+    }
+    .flows {
+      display: none;
+    }
+  }
+</style>
