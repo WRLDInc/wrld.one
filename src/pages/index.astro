@@ -79,9 +79,11 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
     <!-- Featured Section -->
     <section class="featured">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Core Platforms</h2>
-          <p class="section-subtitle">Our primary services powering the WRLD ecosystem</p>
+        <div class="section-header section-header--centered">
+          <div class="section-header__box">
+            <h2 class="section-title">Core Platforms</h2>
+            <p class="section-subtitle">Our primary services powering the WRLD ecosystem</p>
+          </div>
         </div>
         
         <div class="featured__grid">
@@ -95,9 +97,11 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
     <!-- Categories Filter -->
     <section class="directory">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">All Services</h2>
-          <p class="section-subtitle">Browse our complete directory of platforms and tools</p>
+        <div class="section-header section-header--centered">
+          <div class="section-header__box">
+            <h2 class="section-title">All Services</h2>
+            <p class="section-subtitle">Browse our complete directory of platforms and tools</p>
+          </div>
         </div>
         
         <!-- Category Filter -->
@@ -358,6 +362,35 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
   .section-header {
     text-align: center;
     margin-bottom: var(--space-2xl);
+  }
+  
+  .section-header--centered {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .section-header__box {
+    position: relative;
+    padding: var(--space-lg) var(--space-2xl);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    max-width: 600px;
+  }
+  
+  .section-header__box::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(135deg, var(--accent-primary), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.3;
   }
   
   .section-title {
