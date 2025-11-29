@@ -3,16 +3,32 @@ main = "dist/_worker.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
+# WRLD Inc. Cloudflare Account
+account_id = "1260edafa2dec8e0bdf243859e07c160"
+
 # =============================================================================
 # Environment Configuration
 # =============================================================================
 
+# Default environment (for `wrangler dev` and `wrangler deploy`)
+# Deploys to wrldone.wrld-inc.workers.dev for quick testing
+workers_dev = true
+
 [env.production]
 name = "wrldone"
 route = { pattern = "wrld.one/*", zone_name = "wrld.one" }
+workers_dev = false
 
 [env.staging]
 name = "wrldone-staging"
+# Staging available at wrldone-staging.wrldtech.workers.dev
+workers_dev = true
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+PUBLIC_TYPESENSE_HOST = "localhost"
+PUBLIC_TYPESENSE_PORT = "8108"
+PUBLIC_TYPESENSE_PROTOCOL = "https"
 
 # =============================================================================
 # Assets Configuration

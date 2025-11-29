@@ -5,9 +5,21 @@
   "description": "WRLD.one - The unified directory for all WRLD sites and services",
   "scripts": {
     "dev": "astro dev",
+    "dev:worker": "npm run build && wrangler dev",
+    "dev:remote": "npm run build && wrangler dev --remote",
     "build": "astro build",
-    "preview": "wrangler pages dev dist",
-    "astro": "astro"
+    "preview": "npm run build && wrangler dev --local",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:staging": "npm run build && wrangler deploy --env staging",
+    "deploy:production": "npm run build && wrangler deploy --env production",
+    "tail": "wrangler tail",
+    "tail:staging": "wrangler tail --env staging",
+    "logs": "wrangler tail --format pretty",
+    "astro": "astro",
+    "cf:login": "wrangler login",
+    "cf:whoami": "wrangler whoami",
+    "kv:create": "wrangler kv:namespace create",
+    "kv:list": "wrangler kv:namespace list"
   },
   "repository": {
     "type": "git",
