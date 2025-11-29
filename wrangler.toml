@@ -1,4 +1,4 @@
-name = "wrld-one"
+name = "wrldone"
 main = "dist/_worker.js"
 compatibility_date = "2024-01-01"
 
