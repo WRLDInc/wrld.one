@@ -290,11 +290,45 @@ const breadcrumbSchema = {
     animation: orbFloat 25s ease-in-out infinite;
   }
   
-  /* Hide orbs in light mode for stark look */
-  [data-theme="light"] .orb,
+  /* Hide orbs in light mode for clean look */
+  [data-theme="light"] .orb {
+    display: none;
+  }
+
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) .orb {
       display: none;
+    }
+  }
+
+  /* Hide/reduce background effects in light mode */
+  [data-theme="light"] .bg-mesh,
+  [data-theme="light"] .bg-grid,
+  [data-theme="light"] .bg-noise {
+    opacity: 0;
+  }
+
+  [data-theme="light"] .cursor-ring {
+    opacity: 0.3;
+  }
+
+  [data-theme="light"] .mouse-glow {
+    background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.03), transparent 70%);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .bg-mesh,
+    :root:not([data-theme]) .bg-grid,
+    :root:not([data-theme]) .bg-noise {
+      opacity: 0;
+    }
+
+    :root:not([data-theme]) .cursor-ring {
+      opacity: 0.3;
+    }
+
+    :root:not([data-theme]) .mouse-glow {
+      background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.03), transparent 70%);
     }
   }
   

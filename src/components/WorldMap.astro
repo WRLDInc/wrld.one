@@ -2,267 +2,216 @@
 ---
 
 <div class="data-flow-bg" aria-hidden="true">
-  <!-- Horizontal flows -->
-  <div class="flow-line horizontal flow-1"></div>
-  <div class="flow-line horizontal flow-2"></div>
-  <div class="flow-line horizontal flow-3"></div>
-  <div class="flow-line horizontal flow-4"></div>
-  
-  <!-- Vertical flows -->
-  <div class="flow-line vertical flow-5"></div>
-  <div class="flow-line vertical flow-6"></div>
-  <div class="flow-line vertical flow-7"></div>
-  <div class="flow-line vertical flow-8"></div>
-  
-  <!-- Data packets with trailing lines -->
-  <div class="data-packet-group packet-group-1">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
-  
-  <div class="data-packet-group packet-group-2">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
-  
-  <div class="data-packet-group packet-group-3">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
-  
-  <div class="data-packet-group packet-group-4">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
-  
-  <div class="data-packet-group packet-group-5">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
-  
-  <div class="data-packet-group packet-group-6">
-    <div class="data-packet packet-head"></div>
-    <div class="data-trail-line"></div>
-  </div>
+  <canvas id="dataFlowCanvas"></canvas>
 </div>
+
+<script>
+  // Data flow animation with random generation
+  const canvas = document.getElementById('dataFlowCanvas') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Get theme colors
+    function getColors() {
+      const style = getComputedStyle(document.documentElement);
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light' &&
+                     !window.matchMedia('(prefers-color-scheme: light)').matches;
+      return {
+        primary: style.getPropertyValue('--accent-primary').trim() || '#3b82f6',
+        secondary: style.getPropertyValue('--accent-secondary').trim() || '#f97316',
+        opacity: isDark ? 0.6 : 0.25
+      };
+    }
+
+    // Particle class
+    class Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      color: string;
+      trail: { x: number; y: number }[];
+      maxTrail: number;
+      life: number;
+      maxLife: number;
+
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        const colors = getColors();
+        // Random starting edge
+        const edge = Math.floor(Math.random() * 4);
+        switch (edge) {
+          case 0: // Top
+            this.x = Math.random() * canvas.width;
+            this.y = -10;
+            this.vx = (Math.random() - 0.5) * 2;
+            this.vy = Math.random() * 2 + 1;
+            break;
+          case 1: // Right
+            this.x = canvas.width + 10;
+            this.y = Math.random() * canvas.height;
+            this.vx = -(Math.random() * 2 + 1);
+            this.vy = (Math.random() - 0.5) * 2;
+            break;
+          case 2: // Bottom
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + 10;
+            this.vx = (Math.random() - 0.5) * 2;
+            this.vy = -(Math.random() * 2 + 1);
+            break;
+          case 3: // Left
+            this.x = -10;
+            this.y = Math.random() * canvas.height;
+            this.vx = Math.random() * 2 + 1;
+            this.vy = (Math.random() - 0.5) * 2;
+            break;
+        }
+        this.size = Math.random() * 3 + 2;
+        this.color = Math.random() > 0.5 ? colors.primary : colors.secondary;
+        this.trail = [];
+        this.maxTrail = Math.floor(Math.random() * 20) + 15;
+        this.life = 0;
+        this.maxLife = Math.random() * 300 + 200;
+      }
+
+      update() {
+        // Add current position to trail
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > this.maxTrail) {
+          this.trail.shift();
+        }
+
+        // Move
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life++;
+
+        // Reset if out of bounds or life ended
+        if (this.x < -50 || this.x > canvas.width + 50 ||
+            this.y < -50 || this.y > canvas.height + 50 ||
+            this.life > this.maxLife) {
+          this.reset();
+        }
+      }
+
+      draw(ctx: CanvasRenderingContext2D, globalOpacity: number) {
+        // Draw trail
+        if (this.trail.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(this.trail[0].x, this.trail[0].y);
+          for (let i = 1; i < this.trail.length; i++) {
+            ctx.lineTo(this.trail[i].x, this.trail[i].y);
+          }
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = this.size * 0.5;
+          ctx.lineCap = 'round';
+          ctx.globalAlpha = 0.3 * globalOpacity;
+          ctx.stroke();
+        }
+
+        // Draw head with glow
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = globalOpacity;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 15;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    // Create particles
+    const particles: Particle[] = [];
+    const particleCount = Math.min(Math.floor(window.innerWidth / 100), 15);
+    for (let i = 0; i < particleCount; i++) {
+      const p = new Particle();
+      p.life = Math.random() * p.maxLife; // Stagger initial positions
+      particles.push(p);
+    }
+
+    // Grid lines (subtle, not static)
+    let gridOffset = 0;
+
+    // Animation loop
+    function animate() {
+      const colors = getColors();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw subtle moving grid
+      ctx.globalAlpha = 0.03 * colors.opacity;
+      ctx.strokeStyle = colors.primary;
+      ctx.lineWidth = 1;
+
+      const gridSize = 80;
+      gridOffset = (gridOffset + 0.2) % gridSize;
+
+      // Vertical lines
+      for (let x = -gridSize + gridOffset; x < canvas.width + gridSize; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+
+      // Horizontal lines
+      for (let y = -gridSize + gridOffset; y < canvas.height + gridSize; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+
+      // Update and draw particles
+      ctx.globalAlpha = 1;
+      particles.forEach(p => {
+        p.update();
+        p.draw(ctx, colors.opacity);
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      // Colors will be re-fetched on next frame
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+</script>
 
 <style>
   .data-flow-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
-    opacity: 0.6;
     pointer-events: none;
     overflow: hidden;
   }
 
-  .flow-line {
-    position: absolute;
-    background: var(--accent-primary);
-    opacity: 0.15;
-  }
-
-  /* Horizontal lines */
-  .flow-line.horizontal {
+  #dataFlowCanvas {
     width: 100%;
-    height: 2px;
-  }
-
-  .flow-1 { top: 15%; }
-  .flow-2 { top: 35%; }
-  .flow-3 { top: 55%; }
-  .flow-4 { top: 75%; }
-
-  /* Vertical lines */
-  .flow-line.vertical {
     height: 100%;
-    width: 2px;
   }
 
-  .flow-5 { left: 20%; }
-  .flow-6 { left: 40%; }
-  .flow-7 { left: 60%; }
-  .flow-8 { left: 80%; }
-
-  /* Data packet groups with trails */
-  .data-packet-group {
-    position: absolute;
-  }
-  
-  .data-packet {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-primary);
-    box-shadow: 0 0 20px currentColor, 0 0 10px currentColor;
-    opacity: 1;
-  }
-  
-  .data-trail-line {
-    position: absolute;
-    background: linear-gradient(to left, var(--accent-primary), transparent);
-    height: 2px;
-    width: 60px;
-    left: -60px;
-    top: 3px;
-    opacity: 0.7;
-    box-shadow: 0 0 8px currentColor;
-  }
-
-  /* Horizontal packet group animations */
-  .packet-group-1 {
-    top: 15%;
-    animation: moveGroupRight 8s linear infinite;
-  }
-  
-
-  .packet-group-2 {
-    top: 35%;
-    animation: moveGroupRight 10s linear infinite;
-    animation-delay: -2s;
-  }
-  
-
-  .packet-group-3 {
-    top: 55%;
-    animation: moveGroupRight 12s linear infinite;
-    animation-delay: -4s;
-  }
-  
-
-  /* Vertical packet group animations */
-  .packet-group-4 {
-    left: 20%;
-  }
-  
-  .packet-group-4 .data-packet,
-  .packet-group-4 .data-trail {
-    background: var(--accent-secondary);
-    box-shadow: 0 0 20px var(--accent-secondary), 0 0 10px var(--accent-secondary);
-  }
-  
-  .packet-group-4 {
-    animation: moveGroupDown 9s linear infinite;
-  }
-  
-  .packet-group-4 .data-trail-line {
-    background: linear-gradient(to top, var(--accent-secondary), transparent);
-    width: 2px;
-    height: 60px;
-    left: 3px;
-    top: -60px;
-  }
-
-  .packet-group-5 {
-    left: 60%;
-  }
-  
-  .packet-group-5 .data-packet,
-  .packet-group-5 .data-trail {
-    background: var(--accent-secondary);
-    box-shadow: 0 0 20px var(--accent-secondary), 0 0 10px var(--accent-secondary);
-  }
-  
-  .packet-group-5 {
-    animation: moveGroupDown 11s linear infinite;
-    animation-delay: -3s;
-  }
-  
-  .packet-group-5 .data-trail-line {
-    background: linear-gradient(to top, var(--accent-secondary), transparent);
-    width: 2px;
-    height: 60px;
-    left: 3px;
-    top: -60px;
-  }
-
-  .packet-group-6 {
-    left: 80%;
-    animation: moveGroupDown 10s linear infinite;
-    animation-delay: -5s;
-  }
-  
-  .packet-group-6 .trail-1 { top: -12px; }
-  .packet-group-6 .trail-2 { top: -24px; }
-  .packet-group-6 .trail-3 { top: -36px; }
-
-  @keyframes moveGroupRight {
-    0% {
-      left: -50px;
-      opacity: 0;
-    }
-    3% {
-      opacity: 1;
-    }
-    97% {
-      opacity: 1;
-    }
-    100% {
-      left: calc(100% + 50px);
-      opacity: 0;
-    }
-  }
-
-  @keyframes moveGroupDown {
-    0% {
-      top: -50px;
-      opacity: 0;
-    }
-    3% {
-      opacity: 1;
-    }
-    97% {
-      opacity: 1;
-    }
-    100% {
-      top: calc(100% + 50px);
-      opacity: 0;
-    }
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
+  /* Hide in reduced motion */
+  @media (prefers-reduced-motion: reduce) {
     .data-flow-bg {
-      opacity: 0.4;
-    }
-
-    .data-packet {
-      width: 6px;
-      height: 6px;
-    }
-  }
-
-  /* Light mode - reduce intensity of data flow background */
-  [data-theme="light"] .data-flow-bg {
-    opacity: 0.35;
-  }
-
-  [data-theme="light"] .flow-line {
-    opacity: 0.1;
-  }
-
-  [data-theme="light"] .data-packet {
-    box-shadow: 0 0 12px currentColor, 0 0 6px currentColor;
-  }
-
-  [data-theme="light"] .data-trail-line {
-    opacity: 0.5;
-    box-shadow: 0 0 5px currentColor;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .data-flow-bg {
-      opacity: 0.35;
-    }
-    :root:not([data-theme]) .flow-line {
-      opacity: 0.1;
-    }
-    :root:not([data-theme]) .data-packet {
-      box-shadow: 0 0 12px currentColor, 0 0 6px currentColor;
-    }
-    :root:not([data-theme]) .data-trail-line {
-      opacity: 0.5;
-      box-shadow: 0 0 5px currentColor;
+      display: none;
     }
   }
 </style>
