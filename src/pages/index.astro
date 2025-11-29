@@ -247,7 +247,31 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
   
   .search-box:focus-within {
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 4px rgba(0, 173, 238, 0.15);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  }
+
+  /* Light mode search box */
+  [data-theme="light"] .search-box {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(15, 23, 42, 0.15);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  }
+
+  [data-theme="light"] .search-box:focus-within {
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .search-box {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(15, 23, 42, 0.15);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+    :root:not([data-theme]) .search-box:focus-within {
+      background: white;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+    }
   }
   
   .search-box__icon {
@@ -277,6 +301,19 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--text-muted);
+  }
+
+  /* Light mode search kbd */
+  [data-theme="light"] .search-box__kbd {
+    background: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .search-box__kbd {
+      background: rgba(15, 23, 42, 0.06);
+      border-color: rgba(15, 23, 42, 0.1);
+    }
   }
   
   /* Hero Stats */
@@ -392,6 +429,28 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
     pointer-events: none;
     opacity: 0.3;
   }
+
+  /* Light mode section header */
+  [data-theme="light"] .section-header__box {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  }
+
+  [data-theme="light"] .section-header__box::before {
+    opacity: 0.5;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .section-header__box {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(15, 23, 42, 0.1);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+    :root:not([data-theme]) .section-header__box::before {
+      opacity: 0.5;
+    }
+  }
   
   .section-title {
     font-family: var(--font-display);
@@ -456,7 +515,54 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
   .filter-btn--active .filter-btn__count {
     background: rgba(0, 0, 0, 0.2);
   }
-  
+
+  /* Light mode filter buttons */
+  [data-theme="light"] .filter-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(15, 23, 42, 0.12);
+  }
+
+  [data-theme="light"] .filter-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(15, 23, 42, 0.2);
+  }
+
+  [data-theme="light"] .filter-btn--active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+  }
+
+  [data-theme="light"] .filter-btn__count {
+    background: rgba(15, 23, 42, 0.08);
+  }
+
+  [data-theme="light"] .filter-btn--active .filter-btn__count {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .filter-btn {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(15, 23, 42, 0.12);
+    }
+    :root:not([data-theme]) .filter-btn:hover {
+      background: rgba(255, 255, 255, 1);
+      border-color: rgba(15, 23, 42, 0.2);
+    }
+    :root:not([data-theme]) .filter-btn--active {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: white;
+    }
+    :root:not([data-theme]) .filter-btn__count {
+      background: rgba(15, 23, 42, 0.08);
+    }
+    :root:not([data-theme]) .filter-btn--active .filter-btn__count {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+
   .directory__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -480,6 +586,17 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
     color: var(--accent-primary);
     margin-bottom: var(--space-lg);
     filter: drop-shadow(0 0 20px var(--accent-primary));
+  }
+
+  /* Light mode CTA icon - reduce glow */
+  [data-theme="light"] .cta__icon {
+    filter: drop-shadow(0 0 10px var(--accent-primary));
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .cta__icon {
+      filter: drop-shadow(0 0 10px var(--accent-primary));
+    }
   }
   
   .cta__title {

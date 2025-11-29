@@ -74,48 +74,60 @@
 
 /* ==================== Light Mode ==================== */
 [data-theme="light"] {
-  --bg-void: #ffffff;
+  --bg-void: #f8fafc;
   --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-secondary-rgb: 248, 250, 252;
-  --bg-tertiary: #f1f5f9;
-  --bg-elevated: #e2e8f0;
-  
+  --bg-secondary: #f1f5f9;
+  --bg-secondary-rgb: 241, 245, 249;
+  --bg-tertiary: #e2e8f0;
+  --bg-elevated: #cbd5e1;
+
   --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --text-secondary: #334155;
   --text-muted: #64748b;
-  
-  --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-default: rgba(15, 23, 42, 0.12);
-  --border-strong: rgba(15, 23, 42, 0.18);
-  --border-glow: rgba(59, 130, 246, 0.3);
-  
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.15);
+
+  --border-subtle: rgba(15, 23, 42, 0.1);
+  --border-default: rgba(15, 23, 42, 0.15);
+  --border-strong: rgba(15, 23, 42, 0.25);
+  --border-glow: rgba(59, 130, 246, 0.4);
+
+  --shadow-card: 0 4px 20px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-elevated: 0 12px 40px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 25px rgba(59, 130, 246, 0.2);
+  --shadow-glow-strong: 0 0 50px rgba(59, 130, 246, 0.3);
+
+  /* Light mode specific gradients */
+  --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                   radial-gradient(ellipse at 80% 100%, rgba(249, 115, 22, 0.06) 0%, transparent 50%),
+                   radial-gradient(ellipse at 100% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 40%);
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
-    --bg-void: #ffffff;
+    --bg-void: #f8fafc;
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-secondary-rgb: 248, 250, 252;
-    --bg-tertiary: #f1f5f9;
-    --bg-elevated: #e2e8f0;
-    
+    --bg-secondary: #f1f5f9;
+    --bg-secondary-rgb: 241, 245, 249;
+    --bg-tertiary: #e2e8f0;
+    --bg-elevated: #cbd5e1;
+
     --text-primary: #0f172a;
-    --text-secondary: #475569;
+    --text-secondary: #334155;
     --text-muted: #64748b;
-    
-    --border-subtle: rgba(15, 23, 42, 0.08);
-    --border-default: rgba(15, 23, 42, 0.12);
-    --border-strong: rgba(15, 23, 42, 0.18);
-    --border-glow: rgba(59, 130, 246, 0.3);
-    
-    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.12);
-    --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.15);
+
+    --border-subtle: rgba(15, 23, 42, 0.1);
+    --border-default: rgba(15, 23, 42, 0.15);
+    --border-strong: rgba(15, 23, 42, 0.25);
+    --border-glow: rgba(59, 130, 246, 0.4);
+
+    --shadow-card: 0 4px 20px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
+    --shadow-elevated: 0 12px 40px rgba(15, 23, 42, 0.12);
+    --shadow-glow: 0 0 25px rgba(59, 130, 246, 0.2);
+    --shadow-glow-strong: 0 0 50px rgba(59, 130, 246, 0.3);
+
+    /* Light mode specific gradients */
+    --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                     radial-gradient(ellipse at 80% 100%, rgba(249, 115, 22, 0.06) 0%, transparent 50%),
+                     radial-gradient(ellipse at 100% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 40%);
   }
 }
 
@@ -365,12 +377,41 @@ code, pre {
 .btn-primary {
   background: var(--gradient-primary);
   border: none;
-  color: var(--bg-primary);
+  color: white;
   font-weight: 600;
 }
 
 .btn-primary:hover {
   box-shadow: var(--shadow-glow-strong);
+}
+
+/* Light mode button adjustments */
+[data-theme="light"] .btn {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.15);
+}
+
+[data-theme="light"] .btn:hover {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .btn {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.15);
+  }
+  :root:not([data-theme]) .btn:hover {
+    background: rgba(15, 23, 42, 0.08);
+  }
+  :root:not([data-theme]) .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+  }
 }
 
 /* Cards */
@@ -403,6 +444,28 @@ code, pre {
   opacity: 1;
 }
 
+/* Light mode card adjustments */
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .card:hover {
+  border-color: rgba(15, 23, 42, 0.2);
+  box-shadow: var(--shadow-card);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(15, 23, 42, 0.1);
+  }
+  :root:not([data-theme]) .card:hover {
+    border-color: rgba(15, 23, 42, 0.2);
+    box-shadow: var(--shadow-card);
+  }
+}
+
 /* Input Fields */
 .input {
   width: 100%;
@@ -423,7 +486,29 @@ code, pre {
 
 .input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(0, 255, 170, 0.1);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Light mode input adjustments */
+[data-theme="light"] .input {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.15);
+}
+
+[data-theme="light"] .input:focus {
+  background: white;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .input {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(15, 23, 42, 0.15);
+  }
+  :root:not([data-theme]) .input:focus {
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  }
 }
 
 /* Tags/Badges */
@@ -442,9 +527,31 @@ code, pre {
 }
 
 .tag--accent {
-  background: rgba(0, 255, 170, 0.1);
-  border-color: rgba(0, 255, 170, 0.3);
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
   color: var(--accent-primary);
+}
+
+/* Light mode tag adjustments */
+[data-theme="light"] .tag {
+  background: rgba(15, 23, 42, 0.06);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="light"] .tag--accent {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .tag {
+    background: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.12);
+  }
+  :root:not([data-theme]) .tag--accent {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.25);
+  }
 }
 
 /* Status Indicator */

@@ -123,6 +123,19 @@ const socialLinks = [
     border-top: 1px solid var(--border-subtle);
     background: linear-gradient(180deg, transparent, var(--bg-secondary) 50%);
   }
+
+  /* Light mode footer */
+  [data-theme="light"] .footer {
+    border-top-color: rgba(15, 23, 42, 0.1);
+    background: linear-gradient(180deg, transparent, rgba(241, 245, 249, 0.8) 50%);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .footer {
+      border-top-color: rgba(15, 23, 42, 0.1);
+      background: linear-gradient(180deg, transparent, rgba(241, 245, 249, 0.8) 50%);
+    }
+  }
   
   .footer__main {
     display: grid;
@@ -189,7 +202,27 @@ const socialLinks = [
     color: var(--accent-primary);
     transform: translateY(-2px);
   }
-  
+
+  /* Light mode social links */
+  [data-theme="light"] .social-link {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.1);
+  }
+
+  [data-theme="light"] .social-link:hover {
+    background: rgba(59, 130, 246, 0.08);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .social-link {
+      background: rgba(15, 23, 42, 0.04);
+      border-color: rgba(15, 23, 42, 0.1);
+    }
+    :root:not([data-theme]) .social-link:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+  }
+
   /* Links */
   .footer__links {
     display: grid;
@@ -233,6 +266,17 @@ const socialLinks = [
     padding-top: var(--space-xl);
     border-top: 1px solid var(--border-subtle);
   }
+
+  /* Light mode footer bottom */
+  [data-theme="light"] .footer__bottom {
+    border-top-color: rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .footer__bottom {
+      border-top-color: rgba(15, 23, 42, 0.1);
+    }
+  }
   
   .footer__copyright {
     font-size: 0.85rem;
@@ -256,10 +300,21 @@ const socialLinks = [
   .status-dot {
     width: 8px;
     height: 8px;
-    background: var(--accent-primary);
+    background: #22c55e;
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-primary);
+    box-shadow: 0 0 10px #22c55e;
     animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* Light mode status dot - slightly reduced glow */
+  [data-theme="light"] .status-dot {
+    box-shadow: 0 0 6px #22c55e;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .status-dot {
+      box-shadow: 0 0 6px #22c55e;
+    }
   }
   
   .footer__divider {

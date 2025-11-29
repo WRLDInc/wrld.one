@@ -88,12 +88,16 @@ const currentPath = Astro.url.pathname;
   }
   
   [data-theme="light"] .header {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  
+
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) .header {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom-color: rgba(15, 23, 42, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   }
   
@@ -142,6 +146,17 @@ const currentPath = Astro.url.pathname;
   .cube-face--left   { transform: rotateY(-90deg) translateZ(18px); }
   .cube-face--top    { transform: rotateX(90deg) translateZ(18px); }
   .cube-face--bottom { transform: rotateX(-90deg) translateZ(18px); }
+
+  /* Light mode cube - slightly different gradient for better visibility */
+  [data-theme="light"] .cube-face,
+  :root:not([data-theme]) .cube-face {
+    opacity: 1;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .cube-face {
+      opacity: 1;
+    }
+  }
   
   @keyframes cubeRotate {
     0% { transform: rotateX(0deg) rotateY(0deg); }
@@ -200,7 +215,25 @@ const currentPath = Astro.url.pathname;
     color: var(--accent-primary);
     background: rgba(59, 130, 246, 0.12);
   }
-  
+
+  /* Light mode nav links */
+  [data-theme="light"] .nav-link:hover {
+    background: rgba(15, 23, 42, 0.06);
+  }
+
+  [data-theme="light"] .nav-link--active {
+    background: rgba(59, 130, 246, 0.15);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .nav-link:hover {
+      background: rgba(15, 23, 42, 0.06);
+    }
+    :root:not([data-theme]) .nav-link--active {
+      background: rgba(59, 130, 246, 0.15);
+    }
+  }
+
   .nav-link__icon {
     font-size: 1rem;
     opacity: 0.7;
@@ -243,7 +276,27 @@ const currentPath = Astro.url.pathname;
     :root:not([data-theme]) .theme-toggle .icon-sun { display: none; }
     :root:not([data-theme]) .theme-toggle .icon-moon { display: block; }
   }
-  
+
+  /* Light mode theme toggle and buttons */
+  [data-theme="light"] .theme-toggle {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.15);
+  }
+
+  [data-theme="light"] .theme-toggle:hover {
+    background: rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .theme-toggle {
+      background: rgba(15, 23, 42, 0.05);
+      border-color: rgba(15, 23, 42, 0.15);
+    }
+    :root:not([data-theme]) .theme-toggle:hover {
+      background: rgba(15, 23, 42, 0.1);
+    }
+  }
+
   .search-trigger {
     display: flex;
     align-items: center;
@@ -275,7 +328,38 @@ const currentPath = Astro.url.pathname;
     font-size: 0.75rem;
     color: var(--text-muted);
   }
-  
+
+  /* Light mode search trigger */
+  [data-theme="light"] .search-trigger {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.15);
+  }
+
+  [data-theme="light"] .search-trigger:hover {
+    background: rgba(15, 23, 42, 0.08);
+    border-color: var(--accent-primary);
+  }
+
+  [data-theme="light"] .search-trigger__kbd {
+    background: rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .search-trigger {
+      background: rgba(15, 23, 42, 0.05);
+      border-color: rgba(15, 23, 42, 0.15);
+    }
+    :root:not([data-theme]) .search-trigger:hover {
+      background: rgba(15, 23, 42, 0.08);
+      border-color: var(--accent-primary);
+    }
+    :root:not([data-theme]) .search-trigger__kbd {
+      background: rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(15, 23, 42, 0.1);
+    }
+  }
+
   .btn__arrow {
     transition: transform var(--transition-fast);
   }

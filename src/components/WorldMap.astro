@@ -225,10 +225,44 @@
     .data-flow-bg {
       opacity: 0.4;
     }
-    
+
     .data-packet {
       width: 6px;
       height: 6px;
+    }
+  }
+
+  /* Light mode - reduce intensity of data flow background */
+  [data-theme="light"] .data-flow-bg {
+    opacity: 0.35;
+  }
+
+  [data-theme="light"] .flow-line {
+    opacity: 0.1;
+  }
+
+  [data-theme="light"] .data-packet {
+    box-shadow: 0 0 12px currentColor, 0 0 6px currentColor;
+  }
+
+  [data-theme="light"] .data-trail-line {
+    opacity: 0.5;
+    box-shadow: 0 0 5px currentColor;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .data-flow-bg {
+      opacity: 0.35;
+    }
+    :root:not([data-theme]) .flow-line {
+      opacity: 0.1;
+    }
+    :root:not([data-theme]) .data-packet {
+      box-shadow: 0 0 12px currentColor, 0 0 6px currentColor;
+    }
+    :root:not([data-theme]) .data-trail-line {
+      opacity: 0.5;
+      box-shadow: 0 0 5px currentColor;
     }
   }
 </style>

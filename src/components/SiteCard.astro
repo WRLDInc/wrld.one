@@ -151,7 +151,33 @@ const { site, featured = false } = Astro.props;
     background: rgba(var(--bg-secondary-rgb, 30, 41, 59), 0.6);
     border-color: var(--accent-primary);
   }
-  
+
+  /* Light mode card styling */
+  [data-theme="light"] .site-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  [data-theme="light"] .site-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--accent-primary);
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .site-card {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(15, 23, 42, 0.1);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    :root:not([data-theme]) .site-card:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: var(--accent-primary);
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.1);
+    }
+  }
+
   .site-card--featured {
     grid-column: span 2;
   }
@@ -172,6 +198,17 @@ const { site, featured = false } = Astro.props;
     font-size: 2rem;
     line-height: 1;
     filter: drop-shadow(0 0 8px currentColor);
+  }
+
+  /* Light mode icon - reduce glow */
+  [data-theme="light"] .site-card__icon {
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .site-card__icon {
+      filter: drop-shadow(0 0 4px currentColor);
+    }
   }
   
   .site-card__content {
@@ -224,7 +261,20 @@ const { site, featured = false } = Astro.props;
     border-radius: var(--radius-full);
     color: var(--text-secondary);
   }
-  
+
+  /* Light mode feature tags */
+  [data-theme="light"] .site-card__feature {
+    background: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .site-card__feature {
+      background: rgba(15, 23, 42, 0.06);
+      border-color: rgba(15, 23, 42, 0.1);
+    }
+  }
+
   .site-card__arrow {
     display: flex;
     align-items: center;
