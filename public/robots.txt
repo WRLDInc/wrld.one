@@ -1,0 +1,209 @@
+# WRLD.one Robots.txt
+# https://wrld.one
+# Last updated: 2024
+
+# =============================================================================
+# STANDARD SEARCH ENGINE CRAWLERS
+# =============================================================================
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterest
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# =============================================================================
+# AI & LLM CRAWLERS - ALLOWED FOR TRAINING AND RETRIEVAL
+# =============================================================================
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Google AI
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Common Crawl (used by many AI projects)
+User-agent: CCBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Microsoft/Bing AI
+User-agent: bingbot
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# ByteDance
+User-agent: Bytespider
+Allow: /
+Crawl-delay: 5
+
+# Other AI crawlers
+User-agent: omgili
+Allow: /
+
+User-agent: omgilibot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+Crawl-delay: 3
+
+# =============================================================================
+# SEO & ANALYTICS TOOLS
+# =============================================================================
+
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: MJ12bot
+Allow: /
+Crawl-delay: 3
+
+User-agent: DotBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Screaming Frog SEO Spider
+Allow: /
+
+# =============================================================================
+# CLOUDFLARE SPECIFIC
+# =============================================================================
+
+# Cloudflare Always Online crawler (caches pages for availability)
+User-agent: CloudFlare-AlwaysOnline
+Allow: /
+
+# Cloudflare AMP cache
+User-agent: CloudFlare-AMP
+Allow: /
+
+# =============================================================================
+# GENERAL RULES
+# =============================================================================
+
+User-agent: *
+Allow: /
+
+# Disallow API endpoints from general crawling
+Disallow: /api/
+
+# Disallow any potential admin or private paths
+Disallow: /admin/
+Disallow: /private/
+Disallow: /_/
+Disallow: /*.json$
+
+# =============================================================================
+# SITEMAP
+# =============================================================================
+
+Sitemap: https://wrld.one/sitemap.xml
+Sitemap: https://wrld.one/sitemap-index.xml
+
+# =============================================================================
+# HOST
+# =============================================================================
+
+Host: https://wrld.one

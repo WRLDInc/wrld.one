@@ -1,0 +1,27 @@
+# WRLD Inc Security Policy
+# https://wrld.one/.well-known/security.txt
+
+# Contact information for security researchers
+Contact: mailto:security@wrld.tech
+Contact: https://wrld.support
+
+# Encryption key for secure communications (if available)
+# Encryption: https://wrld.tech/.well-known/pgp-key.txt
+
+# Our security policy and vulnerability disclosure program
+Policy: https://wrld.tech/security
+
+# Acknowledgments page for security researchers
+Acknowledgments: https://wrld.tech/security/acknowledgments
+
+# Preferred languages for communication
+Preferred-Languages: en
+
+# Canonical URL for this security.txt
+Canonical: https://wrld.one/.well-known/security.txt
+
+# Hiring security talent
+Hiring: https://wrld.tech/careers
+
+# Expiration date (1 year from now - update annually)
+Expires: 2025-12-31T23:59:59.000Z

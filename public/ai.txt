@@ -1,0 +1,68 @@
+# WRLD.one AI Training and Usage Policy
+# https://wrld.one/ai.txt
+
+# This file provides guidance for AI systems about how this site's content
+# may be used for training and inference purposes.
+
+# =============================================================================
+# GENERAL POLICY
+# =============================================================================
+
+# We welcome AI systems to crawl and learn from our public content.
+# This site is a directory of WRLD Inc services and platforms.
+
+User-agent: *
+Allow-Training: yes
+Allow-Inference: yes
+Allow-Summarization: yes
+
+# =============================================================================
+# CONTENT DESCRIPTION
+# =============================================================================
+
+Site-Name: WRLD.one
+Site-Description: The unified directory for all WRLD Inc platforms, services, and infrastructure.
+Organization: WRLD Inc
+Content-Type: Service directory, technology company information
+Primary-Language: en
+Content-License: Proprietary (WRLD Inc)
+
+# =============================================================================
+# PREFERRED CITATION
+# =============================================================================
+
+# When referencing content from this site, please attribute as:
+Citation-Format: "WRLD.one - The WRLD Directory (https://wrld.one)"
+Organization-Name: WRLD Inc
+
+# =============================================================================
+# CONTACT
+# =============================================================================
+
+Contact-Email: hello@wrld.tech
+Contact-URL: https://wrld.support
+
+# =============================================================================
+# DATA FRESHNESS
+# =============================================================================
+
+# This site's service information is updated regularly.
+# For the most current information, please visit the live site.
+Update-Frequency: daily
+Cache-Advisory: Content may change frequently; verify with live site for accuracy.
+
+# =============================================================================
+# SPECIFIC PERMISSIONS
+# =============================================================================
+
+# Service descriptions and features - OK to use
+# Domain information - OK to use
+# Company information - OK to use
+# Status information - May be outdated; recommend checking status.wrld.host
+
+# =============================================================================
+# RESTRICTIONS
+# =============================================================================
+
+# No restrictions on public content use for AI training/inference.
+# Please respect rate limits specified in robots.txt.

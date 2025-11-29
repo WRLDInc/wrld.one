@@ -2,9 +2,77 @@
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
 }
 
-const { title, description = 'WRLD.one - The unified directory for all WRLD sites and services' } = Astro.props;
+const {
+  title,
+  description = 'WRLD.one - The unified directory for all WRLD platforms, services, and infrastructure. Find everything you need in one place.',
+  image = '/og-image.png',
+  type = 'website',
+  noindex = false
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://wrld.one');
+const ogImageURL = new URL(image, 'https://wrld.one');
+
+// Structured data for organization
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "WRLD Inc",
+  "alternateName": "WRLD",
+  "url": "https://wrld.one",
+  "logo": "https://wrld.one/favicon.svg",
+  "description": "WRLD Inc provides technology solutions including hosting, domains, AI services, and cloud infrastructure.",
+  "sameAs": [
+    "https://github.com/WRLDInc",
+    "https://twitter.com/WRLDInc"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "url": "https://wrld.support"
+  }
+};
+
+// Structured data for website
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WRLD.one",
+  "alternateName": "WRLD Directory",
+  "url": "https://wrld.one",
+  "description": description,
+  "publisher": {
+    "@type": "Organization",
+    "name": "WRLD Inc"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://wrld.one/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Breadcrumb schema (basic)
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://wrld.one"
+    }
+  ]
+};
 ---
 
 <!DOCTYPE html>
@@ -12,28 +80,76 @@ const { title, description = 'WRLD.one - The unified directory for all WRLD site
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content={title}>
   <meta name="description" content={description}>
-  <meta name="theme-color" content="#00ffaa">
-  
-  <!-- Open Graph -->
+  <meta name="keywords" content="WRLD, wrld.one, directory, services, hosting, domains, cloud, AI, infrastructure, WRLD Inc">
+  <meta name="author" content="WRLD Inc">
+  <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}>
+  <meta name="googlebot" content={noindex ? 'noindex, nofollow' : 'index, follow'}>
+  <meta name="bingbot" content={noindex ? 'noindex, nofollow' : 'index, follow'}>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalURL}>
+
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <meta name="msapplication-TileColor" content="#0f172a">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content={type}>
+  <meta property="og:url" content={canonicalURL}>
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
-  <meta property="og:type" content="website">
+  <meta property="og:image" content={ogImageURL}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="WRLD.one - The WRLD Directory">
   <meta property="og:site_name" content="WRLD.one">
-  
+  <meta property="og:locale" content="en_US">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content={canonicalURL}>
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={description}>
-  
-  <!-- Fonts - WRLD Brand -->
+  <meta name="twitter:image" content={ogImageURL}>
+  <meta name="twitter:image:alt" content="WRLD.one - The WRLD Directory">
+  <meta name="twitter:site" content="@WRLDInc">
+  <meta name="twitter:creator" content="@WRLDInc">
+
+  <!-- Additional SEO -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WRLD.one">
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <!-- DNS Prefetch for performance -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+  <!-- Preconnect for critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts - WRLD Brand -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Ubuntu:wght@400;500;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+
+  <!-- RSS Feed (if you add one later) -->
+  <!-- <link rel="alternate" type="application/rss+xml" title="WRLD.one RSS Feed" href="/rss.xml"> -->
+
   <title>{title}</title>
   <script>
     // Prevent FOUC - apply theme immediately

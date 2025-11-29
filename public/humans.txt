@@ -1,0 +1,26 @@
+/* TEAM */
+Company: WRLD Inc
+Site: https://wrld.tech
+Contact: hello@wrld.tech
+Location: Global
+
+/* SITE */
+Last update: 2024
+Language: English
+Doctype: HTML5
+Framework: Astro
+Hosting: Cloudflare Workers
+CDN: Cloudflare
+
+/* TECHNOLOGY */
+Frontend: Astro, TypeScript, CSS
+Animation: Motion
+Build: Vite, esbuild
+Deployment: Cloudflare Workers, Wrangler
+Version Control: Git, GitHub
+
+/* THANKS */
+Cloudflare - Edge hosting and CDN
+Astro - Static site generation
+Motion - Animation library
+Google Fonts - Typography
