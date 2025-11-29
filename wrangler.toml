@@ -1,13 +1,13 @@
-name = "wrld-one"
+name = "wrldone"
 main = "dist/_worker.js"
 compatibility_date = "2024-01-01"
 
 [env.production]
-name = "wrld-one"
+name = "wrldone"
 route = { pattern = "wrld.one/*", zone_name = "wrld.one" }
 
 [env.staging]
-name = "wrld-one-staging"
+name = "wrldone-staging"
 
 # Assets configuration
 [assets]
@@ -25,6 +25,6 @@ persist = true
 invocation_logs = true
 
 [observability.traces]
-enabled = false
+enabled = true
 persist = true
 head_sampling_rate = 1
