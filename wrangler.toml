@@ -1,6 +1,11 @@
 name = "wrldone"
 main = "dist/_worker.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# =============================================================================
+# Environment Configuration
+# =============================================================================
 
 [env.production]
 name = "wrldone"
@@ -9,13 +14,81 @@ route = { pattern = "wrld.one/*", zone_name = "wrld.one" }
 [env.staging]
 name = "wrldone-staging"
 
-# Assets configuration
+# =============================================================================
+# Assets Configuration
+# =============================================================================
+
 [assets]
 directory = "./dist"
 
-# Observability configuration
+# =============================================================================
+# Public Environment Variables
+# =============================================================================
+
+[vars]
+ENVIRONMENT = "production"
+# Typesense configuration (non-sensitive)
+PUBLIC_TYPESENSE_HOST = "localhost"
+PUBLIC_TYPESENSE_PORT = "8108"
+PUBLIC_TYPESENSE_PROTOCOL = "https"
+
+# =============================================================================
+# KV Namespace Bindings
+# =============================================================================
+
+# Search cache - cache search results at the edge
+# Uncomment after creating: wrangler kv:namespace create "SEARCH_CACHE"
+# [[kv_namespaces]]
+# binding = "SEARCH_CACHE"
+# id = "<your-kv-namespace-id>"
+
+# Rate limiting - distributed rate limiting across edge locations
+# Uncomment after creating: wrangler kv:namespace create "RATE_LIMIT"
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = "<your-kv-namespace-id>"
+
+# =============================================================================
+# Analytics Engine Binding
+# Track search queries, page views, and site performance
+# =============================================================================
+
+# Uncomment after creating Analytics Engine dataset:
+# wrangler analytics-engine create wrldone-analytics
+
+# [[analytics_engine_datasets]]
+# binding = "ANALYTICS"
+# dataset = "wrldone_analytics"
+
+# =============================================================================
+# Rate Limiting (via Workers)
+# Protect API endpoints from abuse
+# =============================================================================
+
+# Rate limiting is implemented in code using the KV namespace
+# See src/pages/api/search.ts for implementation
+
+# =============================================================================
+# Smart Placement
+# Automatically place Worker near backend services
+# =============================================================================
+
+[placement]
+mode = "smart"
+
+# =============================================================================
+# Caching Configuration
+# =============================================================================
+
+# Browser caching rules for static assets
+# Configure in Cloudflare dashboard under Caching > Configuration
+
+# =============================================================================
+# Observability Configuration
+# =============================================================================
+
 [observability]
-enabled = false
+enabled = true
 head_sampling_rate = 1
 
 [observability.logs]
@@ -28,3 +101,17 @@ invocation_logs = true
 enabled = true
 persist = true
 head_sampling_rate = 1
+
+# =============================================================================
+# Build Configuration
+# =============================================================================
+
+[build]
+command = "npm run build"
+
+# =============================================================================
+# Limits (Enterprise only)
+# =============================================================================
+
+# [limits]
+# cpu_ms = 50
