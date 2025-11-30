@@ -8,6 +8,7 @@ import {
   RATE_LIMITS,
   type RateLimitEnv,
 } from '../../lib/rateLimit';
+import { trackSearch, type EventsEnv } from '../../lib/events';
 
 // This endpoint must be server-rendered to access request headers for rate limiting
 export const prerender = false;
@@ -53,10 +54,11 @@ export const GET: APIRoute = async ({ url, request, locals }) => {
     return new Response(null, { status: 204, headers: jsonHeaders });
   }
 
-  // Rate limiting - get environment from Astro locals (set by Cloudflare adapter)
-  const env = (locals as { runtime?: { env?: RateLimitEnv } }).runtime?.env || {};
+  // Get environment from Astro locals (set by Cloudflare adapter)
+  const env = (locals as { runtime?: { env?: RateLimitEnv & EventsEnv } }).runtime?.env || {};
   const clientId = getClientId(request);
   const rateLimitResult = await checkRateLimit(env, clientId, RATE_LIMITS.SEARCH_API);
+  const startTime = Date.now();
 
   if (!rateLimitResult.allowed) {
     return rateLimitExceededResponse(rateLimitResult);
@@ -94,6 +96,13 @@ export const GET: APIRoute = async ({ url, request, locals }) => {
   let cachedResponse = await cache.match(cacheRequest);
 
   if (cachedResponse) {
+    // Track cache hit (non-blocking)
+    trackSearch(env, query, -1, {
+      filters,
+      latencyMs: Date.now() - startTime,
+      cacheHit: true,
+    }).catch(() => {}); // Ignore tracking errors
+
     // Return cached response with indicator headers
     const headers = new Headers(cachedResponse.headers);
     headers.set('X-Cache', 'HIT');
@@ -110,6 +119,14 @@ export const GET: APIRoute = async ({ url, request, locals }) => {
     if (!results) {
       return createErrorResponse('Search service unavailable', 503);
     }
+
+    // Track search (non-blocking)
+    const resultsCount = (results as { found?: number }).found ?? 0;
+    trackSearch(env, query, resultsCount, {
+      filters,
+      latencyMs: Date.now() - startTime,
+      cacheHit: false,
+    }).catch(() => {}); // Ignore tracking errors
 
     // Create response and cache it
     const response = createCachedResponse(results);

@@ -65,8 +65,7 @@ PUBLIC_TYPESENSE_PROTOCOL = "https"
 # id = "<your-kv-namespace-id>"
 
 # =============================================================================
-# Analytics Engine Binding
-# Track search queries, page views, and site performance
+# Analytics Engine Binding (Real-time analytics & dashboards)
 # =============================================================================
 
 # Uncomment after creating Analytics Engine dataset:
@@ -75,6 +74,18 @@ PUBLIC_TYPESENSE_PROTOCOL = "https"
 # [[analytics_engine_datasets]]
 # binding = "ANALYTICS"
 # dataset = "wrldone_analytics"
+
+# =============================================================================
+# Pipelines Binding (Event streaming to R2 data lake)
+# Use for: Long-term storage, data warehouse, batch analytics
+# =============================================================================
+
+# Pipeline streams events to R2 as Iceberg tables / Parquet / JSON
+# Data can be queried with tools like DuckDB, Spark, Trino
+
+[[pipelines]]
+pipeline = "4a92cc481b0c4dbeb93ec60092dc4543"
+binding = "EVENTS"
 
 # =============================================================================
 # Rate Limiting (via Workers)

@@ -1,6 +1,13 @@
 /**
  * Cloudflare Analytics Engine Helper
  *
+ * PURPOSE: Real-time analytics and dashboards
+ * - Fast queries via GraphQL API
+ * - Built-in Cloudflare Dashboard widgets
+ * - Best for: Live dashboards, quick aggregations, recent data
+ *
+ * For long-term storage and data lake analytics, use Pipelines (src/lib/events.ts)
+ *
  * Usage with Analytics Engine binding enabled in wrangler.toml:
  *
  * [[analytics_engine_datasets]]
