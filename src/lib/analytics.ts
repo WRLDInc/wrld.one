@@ -1,18 +1,23 @@
 /**
  * Cloudflare Analytics Engine Helper
  *
- * PURPOSE: Real-time analytics and dashboards
- * - Fast queries via GraphQL API
+ * PURPOSE: Real-time analytics and dashboards via Analytics Engine
+ * - Fast queries via GraphQL API (Cloudflare Dashboard > Analytics Engine)
  * - Built-in Cloudflare Dashboard widgets
  * - Best for: Live dashboards, quick aggregations, recent data
  *
- * For long-term storage and data lake analytics, use Pipelines (src/lib/events.ts)
+ * This complements the Pipeline events (src/lib/events.ts):
+ * - Pipeline: Long-term storage in R2 as Iceberg/Parquet (data lake)
+ * - Analytics Engine: Real-time queries and dashboard visualization
+ *
+ * You can use BOTH for the same events - send to Pipeline for storage,
+ * and Analytics Engine for real-time querying.
  *
  * Usage with Analytics Engine binding enabled in wrangler.toml:
  *
  * [[analytics_engine_datasets]]
  * binding = "ANALYTICS"
- * dataset = "wrldone_analytics"
+ * dataset = "wrldone_events"
  *
  * Data can be queried via Cloudflare Dashboard or GraphQL API
  */

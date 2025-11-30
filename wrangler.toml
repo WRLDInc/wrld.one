@@ -65,27 +65,21 @@ PUBLIC_TYPESENSE_PROTOCOL = "https"
 # id = "<your-kv-namespace-id>"
 
 # =============================================================================
-# Analytics Engine Binding (Real-time analytics & dashboards)
-# =============================================================================
-
-# Uncomment after creating Analytics Engine dataset:
-# wrangler analytics-engine create wrldone-analytics
-
-# [[analytics_engine_datasets]]
-# binding = "ANALYTICS"
-# dataset = "wrldone_analytics"
-
-# =============================================================================
 # Pipelines Binding (Event streaming to R2 data lake)
 # Use for: Long-term storage, data warehouse, batch analytics
 # =============================================================================
 
 # Pipeline streams events to R2 as Iceberg tables / Parquet / JSON
-# Data can be queried with tools like DuckDB, Spark, Trino
+# Data can be queried with tools like DuckDB, Spark, Trino, or the Analytics Engine GraphQL API
 
 [[pipelines]]
 pipeline = "4a92cc481b0c4dbeb93ec60092dc4543"
 binding = "EVENTS"
+
+# Analytics Engine binding for the same pipeline (for GraphQL queries)
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "wrldone_events"
 
 # =============================================================================
 # Rate Limiting (via Workers)

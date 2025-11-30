@@ -24,7 +24,16 @@ export type EventName =
   | 'theme_toggle'
   | 'external_link'
   | 'error'
-  | 'performance';
+  | 'performance'
+  // Cross-domain tracking
+  | 'cross_domain_visit'
+  | 'cross_domain_referral'
+  // Auth events
+  | 'auth_login'
+  | 'auth_logout'
+  | 'auth_register'
+  | 'auth_token_refresh'
+  | 'auth_error';
 
 export interface BaseEvent {
   /** Event name for filtering/grouping */
@@ -135,6 +144,104 @@ export interface PerformanceEvent extends BaseEvent {
   rating?: 'good' | 'needs-improvement' | 'poor';
 }
 
+// =============================================================================
+// Cross-Domain Events
+// Track user journeys across WRLD properties (wrld.one, wrld.tech, etc.)
+// =============================================================================
+
+export interface CrossDomainVisitEvent extends BaseEvent {
+  event_name: 'cross_domain_visit';
+  /** Source domain the user came from */
+  source_domain: string;
+  /** Target domain the user is visiting */
+  target_domain: string;
+  /** Shared user/session identifier (hashed for privacy) */
+  visitor_id?: string;
+  /** Path on the source domain */
+  source_path?: string;
+  /** Path on the target domain */
+  target_path?: string;
+  /** Campaign or tracking parameters */
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+}
+
+export interface CrossDomainReferralEvent extends BaseEvent {
+  event_name: 'cross_domain_referral';
+  /** Domain making the referral */
+  referrer_domain: string;
+  /** Full referrer URL */
+  referrer_url: string;
+  /** Target page path */
+  target_path: string;
+  /** Click element that triggered the referral */
+  click_element?: string;
+}
+
+// =============================================================================
+// Auth Events
+// Track authentication across WRLD services
+// =============================================================================
+
+export interface AuthLoginEvent extends BaseEvent {
+  event_name: 'auth_login';
+  /** User ID (hashed for privacy) */
+  user_id: string;
+  /** Authentication method used */
+  method: 'password' | 'oauth_google' | 'oauth_github' | 'oauth_microsoft' | 'magic_link' | 'sso' | 'api_key';
+  /** Service/domain where login occurred */
+  service: string;
+  /** Whether this is a new device */
+  new_device?: boolean;
+  /** 2FA was required */
+  mfa_used?: boolean;
+}
+
+export interface AuthLogoutEvent extends BaseEvent {
+  event_name: 'auth_logout';
+  /** User ID (hashed) */
+  user_id: string;
+  /** Service where logout occurred */
+  service: string;
+  /** Logout reason */
+  reason?: 'user_initiated' | 'session_expired' | 'forced' | 'security';
+}
+
+export interface AuthRegisterEvent extends BaseEvent {
+  event_name: 'auth_register';
+  /** User ID (hashed) */
+  user_id: string;
+  /** Registration method */
+  method: 'email' | 'oauth_google' | 'oauth_github' | 'oauth_microsoft' | 'invitation';
+  /** Service where registration occurred */
+  service: string;
+  /** Referral source if any */
+  referral_source?: string;
+}
+
+export interface AuthTokenRefreshEvent extends BaseEvent {
+  event_name: 'auth_token_refresh';
+  /** User ID (hashed) */
+  user_id: string;
+  /** Service requesting refresh */
+  service: string;
+  /** Whether refresh was successful */
+  success: boolean;
+}
+
+export interface AuthErrorEvent extends BaseEvent {
+  event_name: 'auth_error';
+  /** Error type */
+  error_type: 'invalid_credentials' | 'account_locked' | 'session_expired' | 'token_invalid' | 'mfa_failed' | 'rate_limited' | 'unknown';
+  /** Service where error occurred */
+  service: string;
+  /** User ID if known (hashed) */
+  user_id?: string;
+  /** Additional error details */
+  details?: string;
+}
+
 export type WRLDEvent =
   | PageViewEvent
   | SearchEvent
@@ -143,7 +250,14 @@ export type WRLDEvent =
   | ThemeToggleEvent
   | ExternalLinkEvent
   | ErrorEvent
-  | PerformanceEvent;
+  | PerformanceEvent
+  | CrossDomainVisitEvent
+  | CrossDomainReferralEvent
+  | AuthLoginEvent
+  | AuthLogoutEvent
+  | AuthRegisterEvent
+  | AuthTokenRefreshEvent
+  | AuthErrorEvent;
 
 // =============================================================================
 // Pipeline Binding Interface
@@ -298,6 +412,159 @@ export function trackPerformance(
     value,
     page,
     rating,
+  });
+}
+
+// =============================================================================
+// Cross-Domain Tracking Functions
+// =============================================================================
+
+/**
+ * Track a cross-domain visit (user navigating between WRLD properties)
+ */
+export function trackCrossDomainVisit(
+  env: EventsEnv,
+  sourceDomain: string,
+  targetDomain: string,
+  options?: {
+    visitorId?: string;
+    sourcePath?: string;
+    targetPath?: string;
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+  }
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'cross_domain_visit',
+    source_domain: sourceDomain,
+    target_domain: targetDomain,
+    visitor_id: options?.visitorId,
+    source_path: options?.sourcePath,
+    target_path: options?.targetPath,
+    utm_source: options?.utmSource,
+    utm_medium: options?.utmMedium,
+    utm_campaign: options?.utmCampaign,
+  });
+}
+
+/**
+ * Track a cross-domain referral (user clicking link to another WRLD property)
+ */
+export function trackCrossDomainReferral(
+  env: EventsEnv,
+  referrerDomain: string,
+  referrerUrl: string,
+  targetPath: string,
+  clickElement?: string
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'cross_domain_referral',
+    referrer_domain: referrerDomain,
+    referrer_url: referrerUrl,
+    target_path: targetPath,
+    click_element: clickElement,
+  });
+}
+
+// =============================================================================
+// Auth Event Functions
+// =============================================================================
+
+/**
+ * Track a successful login
+ */
+export function trackAuthLogin(
+  env: EventsEnv,
+  userId: string,
+  method: AuthLoginEvent['method'],
+  service: string,
+  options?: {
+    newDevice?: boolean;
+    mfaUsed?: boolean;
+  }
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'auth_login',
+    user_id: userId,
+    method,
+    service,
+    new_device: options?.newDevice,
+    mfa_used: options?.mfaUsed,
+  });
+}
+
+/**
+ * Track a logout
+ */
+export function trackAuthLogout(
+  env: EventsEnv,
+  userId: string,
+  service: string,
+  reason?: AuthLogoutEvent['reason']
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'auth_logout',
+    user_id: userId,
+    service,
+    reason,
+  });
+}
+
+/**
+ * Track a new user registration
+ */
+export function trackAuthRegister(
+  env: EventsEnv,
+  userId: string,
+  method: AuthRegisterEvent['method'],
+  service: string,
+  referralSource?: string
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'auth_register',
+    user_id: userId,
+    method,
+    service,
+    referral_source: referralSource,
+  });
+}
+
+/**
+ * Track a token refresh
+ */
+export function trackAuthTokenRefresh(
+  env: EventsEnv,
+  userId: string,
+  service: string,
+  success: boolean
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'auth_token_refresh',
+    user_id: userId,
+    service,
+    success,
+  });
+}
+
+/**
+ * Track an authentication error
+ */
+export function trackAuthError(
+  env: EventsEnv,
+  errorType: AuthErrorEvent['error_type'],
+  service: string,
+  options?: {
+    userId?: string;
+    details?: string;
+  }
+): Promise<boolean> {
+  return sendEvent(env, {
+    event_name: 'auth_error',
+    error_type: errorType,
+    service,
+    user_id: options?.userId,
+    details: options?.details,
   });
 }
 
