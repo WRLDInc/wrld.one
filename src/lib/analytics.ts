@@ -16,8 +16,8 @@
  * Usage with Analytics Engine binding enabled in wrangler.toml:
  *
  * [[analytics_engine_datasets]]
- * binding = "ANALYTICS"
- * dataset = "wrldone_events"
+ * binding = "ANALYTICS_ENGINE"
+ * dataset = "wrldone_analytics"
  *
  * Data can be queried via Cloudflare Dashboard or GraphQL API
  */
@@ -52,9 +52,9 @@ interface AnalyticsEngineDataset {
   }): void;
 }
 
-// Environment with Analytics binding
+// Environment with Analytics Engine binding
 interface AnalyticsEnv {
-  ANALYTICS?: AnalyticsEngineDataset;
+  ANALYTICS_ENGINE?: AnalyticsEngineDataset;
 }
 
 /**
@@ -73,13 +73,13 @@ interface AnalyticsEnv {
  * - doubles[0]: timestamp
  */
 export function trackEvent(env: AnalyticsEnv, event: AnalyticsEvent): void {
-  if (!env.ANALYTICS) {
-    // Analytics not configured, silently skip
+  if (!env.ANALYTICS_ENGINE) {
+    // Analytics Engine not configured, silently skip
     return;
   }
 
   try {
-    env.ANALYTICS.writeDataPoint({
+    env.ANALYTICS_ENGINE.writeDataPoint({
       indexes: [event.type],
       blobs: [
         event.path || '',

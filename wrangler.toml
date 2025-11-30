@@ -76,10 +76,10 @@ PUBLIC_TYPESENSE_PROTOCOL = "https"
 pipeline = "4a92cc481b0c4dbeb93ec60092dc4543"
 binding = "EVENTS"
 
-# Analytics Engine binding for the same pipeline (for GraphQL queries)
+# Analytics Engine binding (for GraphQL queries)
 [[analytics_engine_datasets]]
-binding = "ANALYTICS"
-dataset = "wrldone_events"
+binding = "ANALYTICS_ENGINE"
+dataset = "wrldone_analytics"
 
 # =============================================================================
 # Rate Limiting (via Workers)
