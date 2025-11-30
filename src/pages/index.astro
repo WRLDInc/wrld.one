@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SiteCard from '../components/SiteCard.astro';
-import WorldMap from '../components/WorldMap.astro';
+import DataFlowBackground from '../components/DataFlowBackground.astro';
 import { sites, categories } from '../data/sites';
 
 const featuredSites = sites.filter(s => ['wrld-tech', 'wrld-host', 'wrld-ai'].includes(s.id));
@@ -16,7 +16,7 @@ const otherSites = sites.filter(s => !['wrld-tech', 'wrld-host', 'wrld-ai'].incl
   <main>
     <!-- Hero Section -->
     <section class="hero">
-      <WorldMap />
+      <DataFlowBackground />
       <div class="hero__container container">
         <div class="hero__badge">
           <span class="hero__badge-dot"></span>

@@ -1,0 +1,24 @@
+---
+/**
+ * DataFlowBackground - Environment-aware background component
+ *
+ * In staging: Uses experimental version with collisions and ASCII effects
+ * In production: Uses stable grid-aligned version
+ *
+ * Can be forced to experimental with ?experimental=1 query param
+ */
+import WorldMap from './WorldMap.astro';
+import WorldMapExperimental from './WorldMapExperimental.astro';
+
+// Check environment
+const isStaging = import.meta.env.PUBLIC_ENVIRONMENT === 'staging' ||
+                  import.meta.env.ENVIRONMENT === 'staging';
+
+// Check for experimental query param (for testing)
+const url = Astro.url;
+const forceExperimental = url.searchParams.get('experimental') === '1';
+
+const useExperimental = isStaging || forceExperimental;
+---
+
+{useExperimental ? <WorldMapExperimental /> : <WorldMap />}

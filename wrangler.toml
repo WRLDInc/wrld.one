@@ -26,9 +26,19 @@ workers_dev = true
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+PUBLIC_ENVIRONMENT = "staging"
 PUBLIC_TYPESENSE_HOST = "localhost"
 PUBLIC_TYPESENSE_PORT = "8108"
 PUBLIC_TYPESENSE_PROTOCOL = "https"
+
+# Staging gets the same bindings as production
+[[env.staging.pipelines]]
+pipeline = "4a92cc481b0c4dbeb93ec60092dc4543"
+binding = "EVENTS"
+
+[[env.staging.analytics_engine_datasets]]
+binding = "ANALYTICS_ENGINE"
+dataset = "wrldone_analytics"
 
 # =============================================================================
 # Assets Configuration
