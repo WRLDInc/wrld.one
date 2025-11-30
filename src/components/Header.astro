@@ -86,18 +86,19 @@ const currentPath = Astro.url.pathname;
     backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid var(--border-subtle);
   }
-  
-  [data-theme="light"] .header {
-    background: rgba(255, 255, 255, 0.92);
-    border-bottom-color: rgba(15, 23, 42, 0.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  /* Light mode header - explicit overrides */
+  :global([data-theme="light"]) .header {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: rgba(15, 23, 42, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .header {
-      background: rgba(255, 255, 255, 0.92);
-      border-bottom-color: rgba(15, 23, 42, 0.1);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    :global(html:not([data-theme])) .header {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom-color: rgba(15, 23, 42, 0.12);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
   }
   
