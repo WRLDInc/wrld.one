@@ -161,23 +161,27 @@ export function trackFilterUsed(
  *
  * query {
  *   viewer {
- *     accounts(filter: { accountTag: "YOUR_ACCOUNT_TAG" }) {
- *       wrldoneAnalyticsAdaptiveGroups(
+ *     accounts(filter: { accountTag: "1260edafa2dec8e0bdf243859e07c160" }) {
+ *       workersAnalyticsEngineAdaptiveGroups(
  *         filter: {
  *           datetime_geq: "2024-01-01T00:00:00Z"
  *           datetime_leq: "2024-12-31T23:59:59Z"
+ *           dataset: "wrldone_analytics"
  *         }
  *         limit: 1000
  *         orderBy: [count_DESC]
  *       ) {
  *         count
  *         dimensions {
- *           index1  # event type
- *           blob1   # path
- *           blob2   # query/serviceId
+ *           dataset
+ *           datetime
+ *           datetimeHour
  *         }
  *       }
  *     }
  *   }
  * }
+ *
+ * Note: Custom dimensions (index1, blob1, etc.) are available for per-row data
+ * but require different query fields. See Cloudflare Analytics Engine docs.
  */
